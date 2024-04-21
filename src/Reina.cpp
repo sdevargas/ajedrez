@@ -8,5 +8,11 @@ void Reina::Dibuja(){
 
 bool Reina::ValidaMov(Vector2D origen, Vector2D destino, Pieza* PosicionPiezas)
 {
-	return false;
+	if (destino.y + destino.x > 15 || destino.y + destino.x < 4 ||
+		destino.x - destino.y < -5 || destino.x - destino.y > 6) {
+		return false;
+	}
+	else {
+		//COMPLETAR
+	}
 }
