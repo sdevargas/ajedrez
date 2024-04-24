@@ -1,13 +1,21 @@
 #include "freeglut.h"
 #include "ETSIDI.h"
-#include "Tablero.h"
+//#include "Tablero.h"
+#include "Mundo.h"
 
-Tablero tablero;
+#include<iostream>
+using namespace std;
+
+Mundo mundo;
+//Tablero tablero;
 
 //NO HACE FALTA LLAMARLAS EXPLICITAMENTE
 void OnDraw(void); //esta funcion sera llamada para dibujar
 void OnTimer(int value); //esta funcion sera llamada cuando transcurra una temporizacion
 void OnKeyboardDown(unsigned char key, int x, int y); //cuando se pulse una tecla	
+
+void ClicRaton(int button, int state, int x, int y);
+
 
 int main(int argc,char* argv[])
 {
@@ -30,6 +38,7 @@ int main(int argc,char* argv[])
 	glutDisplayFunc(OnDraw);
 	glutTimerFunc(25,OnTimer,0);//le decimos que dentro de 25ms llame 1 vez a la funcion OnTimer()
 	glutKeyboardFunc(OnKeyboardDown);
+	glutMouseFunc(ClicRaton);
 
 	//POSIBLE INICIALIZACION
 		
@@ -69,7 +78,7 @@ void OnDraw(void)
 	glDisable(GL_TEXTURE_2D);*/
 
 	//DIBUJAR TABLERO
-	tablero.Dibuja();
+	mundo.tablero.Dibuja();
 
 
 	//no borrar esta linea ni poner nada despues
@@ -91,4 +100,28 @@ void OnTimer(int value)
 	//no borrar estas lineas
 	glutTimerFunc(25,OnTimer,0);
 	glutPostRedisplay();
+}
+
+void ClicRaton(int button, int state, int x, int y) {
+	/*
+	button->sabemos el botón
+	state-> sabemos si está pulsado o sin pulsar
+	x y -> coordenadas del ratón
+	*/
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+		int columna = (x - 212) / 40;
+		int fila = -(y - 510) / 40;
+
+		if (fila + columna > 15 || fila + columna < 4 ||
+			columna - fila < -5 || columna - fila > 6) {//Restricción de casillas
+			cout << "Casilla no válida" << endl;
+		}
+		else {
+			cout << x << "," << y << "       ";
+			cout << columna << "," << fila << endl;
+		}
+	}
+
+	//Puede dar problemas en los límites de la casilla
+
 }
