@@ -12,6 +12,13 @@ bool Torre::ValidaMov(Vector2D origen, Vector2D destino, Pieza* PosicionPiezas)
 		return false;
 	}
 	else {
-		//COMPLETAR
+
+		Vector2D res = destino - origen;
+
+		if (res.x == 0 && res.y != 0)
+			return true;
+		if (res.y == 0 && res.x != 0)
+			return true;
+		else return false;
 	}
 }

@@ -14,6 +14,12 @@ bool Alfil::ValidaMov(Vector2D origen, Vector2D destino, Pieza* PosicionPiezas)
 		return false;
 	}
 	else {
-		//COMPLETAR
+
+		Vector2D res = destino - origen;
+
+		if (abs(res.x) == abs(res.y))
+			return true;
+		else
+			return false;
 	}
 }

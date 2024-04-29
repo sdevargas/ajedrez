@@ -14,6 +14,14 @@ bool Caballo::ValidaMov(Vector2D origen, Vector2D destino, Pieza* PosicionPiezas
 		return false;
 	}
 	else {
-		//COMPLETAR
+
+		Vector2D res = destino - origen;
+
+		if (abs(res.x) == 2 && abs(res.y) == 1)
+			return true;
+		if (abs(res.y) == 2 && abs(res.x) == 1)
+			return true;
+		else
+			return false;
 	}
 }
