@@ -5,5 +5,5 @@ class Caballo :public Pieza {
 public:
 	Caballo(Color _color) : Pieza(_color, CABALLO) {}
 	void Dibuja();
-	bool ValidaMov(Vector2D origen, Vector2D destino, Pieza* PosicionPiezas);
+	bool ValidaMov(Vector2D origen, Vector2D destino, Pieza** posicionPiezas);
 };

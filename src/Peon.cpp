@@ -6,7 +6,7 @@ void Peon::Dibuja(){
 	glutSolidSphere(0.2, 20, 20);
 }
 
-bool Peon::ValidaMov(Vector2D origen, Vector2D destino, Pieza* PosicionPiezas)
+bool Peon::ValidaMov(Vector2D origen, Vector2D destino, Pieza** posicionPiezas)
 {
 	Vector2D res = destino - origen; 
 

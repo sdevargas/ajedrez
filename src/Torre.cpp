@@ -5,7 +5,7 @@ void Torre::Dibuja(){
     glutSolidSphere(0.2, 20, 20);
 }
 
-bool Torre::ValidaMov(Vector2D origen, Vector2D destino, Pieza* PosicionPiezas)
+bool Torre::ValidaMov(Vector2D origen, Vector2D destino, Pieza** posicionPiezas)
 {
 	if (destino.y + destino.x > 15 || destino.y + destino.x < 4 ||
 		destino.x - destino.y < -5 || destino.x - destino.y > 6) {

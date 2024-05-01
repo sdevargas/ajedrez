@@ -111,15 +111,19 @@ void ClicRaton(int button, int state, int x, int y) {
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
 		int columna = (x - 212) / 40;
 		int fila = -(y - 510) / 40;
-
+		
 		if (fila + columna > 15 || fila + columna < 4 ||
 			columna - fila < -5 || columna - fila > 6) {//Restricción de casillas
-			cout << "Casilla no válida" << endl;
+			cout << "Casilla no valida" << endl;
+			
 		}
 		else {
 			cout << x << "," << y << "       ";
 			cout << columna << "," << fila << endl;
+			
+			mundo.PuedeHacerMov(columna, fila); //Pasamos al objeto mundo las coordenadas de un click válido
 		}
+
 	}
 
 	//Puede dar problemas en los límites de la casilla
