@@ -123,7 +123,7 @@ void Tablero::Mueve(int x, int y)
 			destinoPieza.x = x;
 			destinoPieza.y = y;
 
-			if (posicionPiezas[origenPieza.x][origenPieza.y]->ValidaMov(origenPieza, destinoPieza, *this->posicionPiezas)) { //Pieza del 1er click llama a SU validar movimiento (polimorfismo)
+			if (posicionPiezas[origenPieza.x][origenPieza.y]->ValidaMov(origenPieza, destinoPieza, posicionPiezas)) { //Pieza del 1er click llama a SU validar movimiento (polimorfismo)
 				posicionPiezas[destinoPieza.x][destinoPieza.y] = posicionPiezas[origenPieza.x][origenPieza.y]; //Se le asigna la nueva posición a la pieza
 				posicionPiezas[origenPieza.x][origenPieza.y] = nullptr; //Se elimina la pieza del origen
 				

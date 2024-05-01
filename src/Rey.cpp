@@ -6,7 +6,7 @@ void Rey::Dibuja(){
 	glutSolidSphere(0.2, 20, 20);
 }
 
-bool Rey::ValidaMov(Vector2D origen, Vector2D destino, Pieza** posicionPiezas)
+bool Rey::ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[11][10])
 {
 	if (destino.y + destino.x > 15 || destino.y + destino.x < 4 ||
 		destino.x - destino.y < -5 || destino.x - destino.y > 6) {
