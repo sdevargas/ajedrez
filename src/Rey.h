@@ -5,5 +5,5 @@ class Rey :public Pieza {
 public:
 	Rey(Color _color) : Pieza(_color, REY) {}
 	void Dibuja();
-	bool ValidaMov(Vector2D origen, Vector2D destino, Pieza** posicionPiezas);
+	bool ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[11][10]);
 };
