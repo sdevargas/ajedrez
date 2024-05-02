@@ -22,29 +22,24 @@ bool Torre::ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[1
 			
 			for (int i = origen.y+arriba; i != destino.y; i+=arriba) { //recorremos la trayectoria  vertical comprobando que no haya piezas en esta 
 
-
 				if (posicionPiezas[origen.x][i] == nullptr) {
 					continue;
 				}
-
 				return false;
-		
 			}
-
-
-		
-			return true;
+            return true;
 		}
-		if (res.y == 0 && res.x != 0)
+		if (res.y == 0 && res.x != 0) {
 			for (int i = origen.x + dcha; i != destino.x; i += dcha) { // igual que la linea 23 pero en horizontal
 
 				if (posicionPiezas[i][origen.y] == nullptr) {
 					continue;
 				}
-
 				return false;
 
 			}
+			return true;
+		}
 		else return false;
 	}
 }
