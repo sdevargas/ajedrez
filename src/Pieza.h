@@ -19,7 +19,7 @@ public:
 	/*Estos métodos son virtuales porque cada pieza haga lo que le toca de una manera concreta,
 	que las funciones sean virtuales es lo que les permite hacer esto que es el poliformismo*/
 	virtual void Dibuja()=0; 
-	virtual bool ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[11][10])=0;
+	virtual bool ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[11][10]) = 0;
 
 	Color getColor() {
 		return color;
