@@ -1,6 +1,6 @@
 #include "Tablero.h"
 #include <freeglut.h>
-
+#include"ETSIDI.h"
 #include<iostream>
 using namespace std;
 
@@ -60,9 +60,9 @@ void Tablero::Dibuja(){
 			}else{
 				glDisable(GL_LIGHTING);
 				if ((fila + columna) % 2 == 0) {
-					glColor3ub(30, 132, 73/*70, 41, 5*/); //OSCURO
+					glColor3ub(/*30, 132, 73*//*70, 41, 5*/79, 69, 60); //OSCURO
 				}
-				else glColor3ub(169, 223, 191/*245, 203, 138*/); //CLARO
+				else glColor3ub(/*169, 223, 191*//*245, 203, 138*/162, 157, 135); //CLARO
 				glBegin(GL_POLYGON);
 				glVertex3d(columna, fila, 0);
 				glVertex3d(columna +1, fila, 0);
@@ -79,12 +79,30 @@ void Tablero::Dibuja(){
 	for (int columna = 0; columna < limite_columnas; columna++) {
 		for (int fila = 0; fila < limite_filas; fila++) {
 			if (posicionPiezas[columna][fila] != nullptr) {
+				glPushMatrix();
 				glTranslatef(columna +0.5, fila+0.5, 0); //Desplazas el eje de cordenadas
 				posicionPiezas[columna][fila]->Dibuja(); //Llamada al método Dibuja de la pieza que corresponde
 				glTranslatef(-columna - 0.5, -fila - 0.5, 0);
+				glPopMatrix();
 			}
 		}
 	}
+
+	//DIBUJO DEL FONDO
+	glTranslatef(5.6, -2, 0);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/fondo.png").id);
+	glDisable(GL_LIGHTING);
+	glBegin(GL_POLYGON);
+	glColor3f(1, 1, 1);
+	glTexCoord2d(0, 1); glVertex3f(-10, 0, -0.01f);
+	glTexCoord2d(1, 1); glVertex3f(10, 0, -0.01f);
+	glTexCoord2d(1, 0); glVertex3f(10, 15, -0.01f);
+	glTexCoord2d(0, 0); glVertex3f(-10, 15, -0.01f);
+	glEnd();
+	glEnable(GL_LIGHTING);
+	glDisable(GL_TEXTURE_2D);
+	glTranslatef(-5.6, +2, 0);
 }
 
 void Tablero::Mueve(int x, int y)

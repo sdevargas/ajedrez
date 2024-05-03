@@ -1,10 +1,29 @@
 #include "Alfil.h"
 #include "freeglut.h"
+#include"ETSIDI.h"
 
 void Alfil::Dibuja()
 {
-	glColor3ub(41, 128, 185);
-	glutSolidSphere(0.2, 20, 20);
+	glEnable(GL_TEXTURE_2D);
+	if (color == BLANCO) {
+		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/alfilB.png").id);
+	}
+	else glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/alfilN.png").id);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDisable(GL_LIGHTING);
+
+	glBegin(GL_POLYGON);
+	glColor4ub(255, 255, 255, 255); // Use glColor4ub to include alpha value
+	glTexCoord2d(0, 1); glVertex3f(-0.5f, -0.5f, 0.01f);
+	glTexCoord2d(1, 1); glVertex3f(0.5f, -0.5f, 0.01f);
+	glTexCoord2d(1, 0); glVertex3f(0.5f, 0.5f, 0.01f);
+	glTexCoord2d(0, 0); glVertex3f(-0.5f, 0.5f, 0.01f);
+	glEnd();
+
+	glDisable(GL_BLEND);
+	glEnable(GL_LIGHTING);
 
 }
 
