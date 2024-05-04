@@ -24,5 +24,12 @@ public:
 	Color getColor() {
 		return color;
 	}
+
+	Tipo getTipo() {
+		return tipo;
+	}
+
+	bool alPasoOk = 0; //Solo lo van a usar los peones
+	bool alPasoTurno = 0; //Solo lo van a usar los peones
 };
 

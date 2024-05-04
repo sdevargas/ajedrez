@@ -19,6 +19,7 @@ private:
 	Turno turno;
 	int contadorClick;
 	Vector2D origenPieza, destinoPieza;
+	bool alPasoTurn = 0; //Para indicar que al siguiente turno se puede producir captura al paso
 
 public:
 	Pieza* posicionPiezas[limite_columnas][limite_filas]; //Se crea una matriz para albergar la posición de las piezas en el tablero
