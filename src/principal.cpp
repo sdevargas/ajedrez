@@ -114,6 +114,7 @@ void ClicRaton(int button, int state, int x, int y) {
 		
 		if (fila + columna > 15 || fila + columna < 4 ||
 			columna - fila < -5 || columna - fila > 6) {//Restricción de casillas
+			ETSIDI::playMusica("bin/sonidos/error-fuera.mp3");
 			cout << "Casilla no valida" << endl;
 			
 		}

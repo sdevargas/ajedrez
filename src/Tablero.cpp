@@ -89,7 +89,7 @@ void Tablero::Dibuja(){
 	}
 
 	//DIBUJO DEL FONDO
-	glTranslatef(5.6, -2, 0);
+	glTranslatef(5.6, -2, 0); //Movemos el eje para que se dibuje centrado
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/fondo.png").id);
 	glDisable(GL_LIGHTING);
@@ -102,7 +102,7 @@ void Tablero::Dibuja(){
 	glEnd();
 	glEnable(GL_LIGHTING);
 	glDisable(GL_TEXTURE_2D);
-	glTranslatef(-5.6, +2, 0);
+	glTranslatef(-5.6, +2, 0); //Revertimos el desplazamiento del eje
 }
 
 void Tablero::Mueve(int x, int y)
@@ -124,17 +124,20 @@ void Tablero::Mueve(int x, int y)
 			}
 			else { 
 				contadorClick = 0; 
+				ETSIDI::playMusica("bin/sonidos/error.mp3");
 				cout << "1er click NO valido por color" << endl; 
 			}//Reiniciamos el turno 
 		}
 		else {
 			contadorClick = 0; 
+			ETSIDI::playMusica("bin/sonidos/error.mp3");
 			cout << "1er click NO valido por pieza" << endl;
 		} //Reiniciamosel turno
 	}
 	else if (contadorClick == 2) {
 
 		if (posicionPiezas[x][y]!=nullptr && posicionPiezas[x][y]->getColor() == turno) { 
+			ETSIDI::playMusica("bin/sonidos/error.mp3");
 			contadorClick = 0; cout << "2o click NO valido por pieza de turno" << endl;
 		}
 		else {
@@ -168,11 +171,12 @@ void Tablero::Mueve(int x, int y)
 					alPasoTurn = false;
 				}
 				//
-
+				ETSIDI::playMusica("bin/sonidos/correcto.mp3");
 				turno = (turno == BLANCAS) ? NEGRAS : BLANCAS; //Cambio de turno
 				cout << "TURNO DE: " << turno << endl;
 			} else { 
 				contadorClick = 0; 
+				ETSIDI::playMusica("bin/sonidos/error.mp3");
 				cout << "2o click NO valido por movimiento de la propia pieza" << endl; 
 			}//Reiniciamos el turno
 		}
