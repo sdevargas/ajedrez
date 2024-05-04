@@ -141,10 +141,34 @@ void Tablero::Mueve(int x, int y)
 			destinoPieza.x = x;
 			destinoPieza.y = y;
 
+			// Captura al paso
+			if (alPasoTurn == true && posicionPiezas[origenPieza.x][origenPieza.y] != nullptr)
+				posicionPiezas[origenPieza.x][origenPieza.y]->alPasoTurno = true;
+			//
+
 			if (posicionPiezas[origenPieza.x][origenPieza.y]->ValidaMov(origenPieza, destinoPieza, posicionPiezas)) { //Pieza del 1er click llama a SU validar movimiento (polimorfismo)
 				posicionPiezas[destinoPieza.x][destinoPieza.y] = posicionPiezas[origenPieza.x][origenPieza.y]; //Se le asigna la nueva posición a la pieza
 				posicionPiezas[origenPieza.x][origenPieza.y] = nullptr; //Se elimina la pieza del origen
-				
+
+				// Captura al paso
+				if (alPasoTurn == false
+					&& posicionPiezas[destinoPieza.x][destinoPieza.y] != nullptr //Por seguridad
+					&& posicionPiezas[destinoPieza.x][destinoPieza.y]->alPasoOk) {
+					alPasoTurn = true;
+					posicionPiezas[destinoPieza.x][destinoPieza.y]->alPasoOk = false;
+				}
+				else if (alPasoTurn && posicionPiezas[destinoPieza.x][destinoPieza.y] != nullptr){
+					if (posicionPiezas[destinoPieza.x][destinoPieza.y]->alPasoOk) {
+						if (turno == BLANCAS)
+							posicionPiezas[destinoPieza.x][5] = nullptr;
+						else
+							posicionPiezas[destinoPieza.x][4] = nullptr;
+						posicionPiezas[destinoPieza.x][destinoPieza.y]->alPasoOk = false;
+					}
+					alPasoTurn = false;
+				}
+				//
+
 				turno = (turno == BLANCAS) ? NEGRAS : BLANCAS; //Cambio de turno
 				cout << "TURNO DE: " << turno << endl;
 			} else { 
