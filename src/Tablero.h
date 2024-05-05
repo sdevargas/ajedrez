@@ -28,4 +28,5 @@ public:
 	Tablero();
 	void Dibuja();
 	void Mueve(int x, int y);
+	bool Jaque(Pieza* [limite_columnas][limite_filas]);
 };

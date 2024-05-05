@@ -136,6 +136,28 @@ void Tablero::Mueve(int x, int y)
 	}
 	else if (contadorClick == 2) {
 
+		Pieza* posicionPiezas_aux[limite_columnas][limite_filas];
+		for (int i = 0; i < limite_columnas; i++) {
+			for (int j = 0; j < limite_filas; j++) {
+				posicionPiezas_aux[i][j] = posicionPiezas[i][j]; //Se copia la matriz de PosicionPiezas para la comprobaci n de las posiciones
+			}
+		}
+		/*
+		Vector2D posicionreserva = origenPieza;
+
+		if (Jaque(posicionPiezas_aux)) {
+			contadorClick = 0;
+			//posicionPiezas[destinoPieza.x][destinoPieza.y] = posicionPiezas[posicionreserva.x][posicionreserva.y];
+			posicionPiezas[destinoPieza.x][destinoPieza.y] = nullptr;
+			posicionPiezas[origenPieza.x][origenPieza.y] = posicionPiezas[posicionreserva.x][posicionreserva.y];
+
+			cout << "Movimiento no valido por posicion en jaque" << endl;
+
+		}
+
+		
+		*/
+
 		if (posicionPiezas[x][y]!=nullptr && posicionPiezas[x][y]->getColor() == turno) { 
 			ETSIDI::playMusica("bin/sonidos/error.mp3");
 			contadorClick = 0; cout << "2o click NO valido por pieza de turno" << endl;
@@ -153,27 +175,39 @@ void Tablero::Mueve(int x, int y)
 				posicionPiezas[destinoPieza.x][destinoPieza.y] = posicionPiezas[origenPieza.x][origenPieza.y]; //Se le asigna la nueva posición a la pieza
 				posicionPiezas[origenPieza.x][origenPieza.y] = nullptr; //Se elimina la pieza del origen
 
-				// Captura al paso
-				if (alPasoTurn == false
-					&& posicionPiezas[destinoPieza.x][destinoPieza.y] != nullptr //Por seguridad
-					&& posicionPiezas[destinoPieza.x][destinoPieza.y]->alPasoOk) {
-					alPasoTurn = true;
-					posicionPiezas[destinoPieza.x][destinoPieza.y]->alPasoOk = false;
-				}
-				else if (alPasoTurn && posicionPiezas[destinoPieza.x][destinoPieza.y] != nullptr){
-					if (posicionPiezas[destinoPieza.x][destinoPieza.y]->alPasoOk) {
-						if (turno == BLANCAS)
-							posicionPiezas[destinoPieza.x][5] = nullptr;
-						else
-							posicionPiezas[destinoPieza.x][4] = nullptr;
+					// Captura al paso
+					if (alPasoTurn == false
+						&& posicionPiezas[destinoPieza.x][destinoPieza.y] != nullptr //Por seguridad
+						&& posicionPiezas[destinoPieza.x][destinoPieza.y]->alPasoOk) {
+						alPasoTurn = true;
 						posicionPiezas[destinoPieza.x][destinoPieza.y]->alPasoOk = false;
 					}
-					alPasoTurn = false;
-				}
-				//
-				ETSIDI::playMusica("bin/sonidos/correcto.mp3");
-				turno = (turno == BLANCAS) ? NEGRAS : BLANCAS; //Cambio de turno
-				cout << "TURNO DE: " << turno << endl;
+					else if (alPasoTurn && posicionPiezas[destinoPieza.x][destinoPieza.y] != nullptr) {
+						if (posicionPiezas[destinoPieza.x][destinoPieza.y]->alPasoOk) {
+							if (turno == BLANCAS)
+								posicionPiezas[destinoPieza.x][5] = nullptr;
+							else
+								posicionPiezas[destinoPieza.x][4] = nullptr;
+							posicionPiezas[destinoPieza.x][destinoPieza.y]->alPasoOk = false;
+						}
+						alPasoTurn = false;
+					}
+					//
+					if (Jaque(posicionPiezas)) {
+						contadorClick = 0;
+						cout << "Movimiento no valido por posicion en jaque" << endl;
+						for (int i = 0; i < limite_columnas; i++) {
+							for (int j = 0; j < limite_filas; j++) {
+								posicionPiezas[i][j] = posicionPiezas_aux[i][j]; //Se mantienen las posiciones originales
+							}
+						}
+
+					}
+					else {
+						ETSIDI::playMusica("bin/sonidos/correcto.mp3");
+						turno = (turno == BLANCAS) ? NEGRAS : BLANCAS; //Cambio de turno
+						cout << "TURNO DE: " << turno << endl;
+					}
 			} else { 
 				contadorClick = 0; 
 				ETSIDI::playMusica("bin/sonidos/error.mp3");
@@ -181,5 +215,59 @@ void Tablero::Mueve(int x, int y)
 			}//Reiniciamos el turno
 		}
 	}
+	
+}
+
+bool Tablero::Jaque(Pieza* posicionPiezas_aux[limite_columnas][limite_filas])
+{
+	Vector2D rey_blanco, rey_negro;
+
+	//Bucle para encontrar el rey
+	for (int i = 0; i < limite_columnas; i++) {
+		for (int j = 0; j < limite_filas; j++) {
+			if (posicionPiezas_aux[i][j] != nullptr) {
+				//Se guardan las posiciones de los dos reyes
+				if (posicionPiezas_aux[i][j]->getTipo() == Pieza::Tipo::REY && posicionPiezas_aux[i][j]->getColor() == Pieza::Color::BLANCO) {
+					rey_blanco.x = i;  
+					rey_blanco.y = j;
+				}
+				if (posicionPiezas_aux[i][j]->getTipo() == Pieza::Tipo::REY && posicionPiezas_aux[i][j]->getColor() == Pieza::Color::NEGRO) {
+					rey_negro.x = i;
+					rey_negro.y = j;
+				}
+			}
+		}
+	}
+
+	cout << "Posicion rey blanco: " << rey_blanco.x << ", " << rey_blanco.y << endl;
+	cout << "Posicion rey negro: " << rey_negro.x << ", " << rey_negro.y << endl;
+	
+	Vector2D rey_comp; //Se crea un Vector2D para guardar las coordenadas del rey que utilizaremos para comprobar el jaque
+	bool respuesta = false; //Esta será la respuesta bool a la función
+
+	//En función del turno cogemos un rey u otro
+	if (turno == Turno::BLANCAS) rey_comp = rey_blanco;
+	if (turno == Turno::NEGRAS) rey_comp = rey_negro;
+	
+
+	for (int i = 0; i < limite_columnas; i++) {
+		for (int j = 0; j < limite_filas; j++) {
+			if (posicionPiezas_aux[i][j] != nullptr) {
+				if (posicionPiezas_aux[i][j]->getColor() != turno) { //Si el color de la pieza es distinto al del turno
+					Vector2D origen(i, j);                           //cogemos sus coordenadas
+					if (posicionPiezas_aux[i][j]->ValidaMov(origen, rey_comp, posicionPiezas_aux) == true) { //comprobamos si es valido su movimiento hacia el rey
+						cout << "Jaque" << endl;
+						respuesta = true;
+					}
+					else {
+						continue;
+					}
+				}
+			}
+		}
+	}
+
+	return respuesta;
+
 	
 }
