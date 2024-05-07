@@ -142,21 +142,6 @@ void Tablero::Mueve(int x, int y)
 				posicionPiezas_aux[i][j] = posicionPiezas[i][j]; //Se copia la matriz de PosicionPiezas para la comprobaci n de las posiciones
 			}
 		}
-		/*
-		Vector2D posicionreserva = origenPieza;
-
-		if (Jaque(posicionPiezas_aux)) {
-			contadorClick = 0;
-			//posicionPiezas[destinoPieza.x][destinoPieza.y] = posicionPiezas[posicionreserva.x][posicionreserva.y];
-			posicionPiezas[destinoPieza.x][destinoPieza.y] = nullptr;
-			posicionPiezas[origenPieza.x][origenPieza.y] = posicionPiezas[posicionreserva.x][posicionreserva.y];
-
-			cout << "Movimiento no valido por posicion en jaque" << endl;
-
-		}
-
-		
-		*/
 
 		if (posicionPiezas[x][y]!=nullptr && posicionPiezas[x][y]->getColor() == turno) { 
 			ETSIDI::playMusica("bin/sonidos/error.mp3");
@@ -166,52 +151,64 @@ void Tablero::Mueve(int x, int y)
 			destinoPieza.x = x;
 			destinoPieza.y = y;
 
-			// Captura al paso
-			if (alPasoTurn == true && posicionPiezas[origenPieza.x][origenPieza.y] != nullptr)
-				posicionPiezas[origenPieza.x][origenPieza.y]->alPasoTurno = true;
-			//
-
 			if (posicionPiezas[origenPieza.x][origenPieza.y]->ValidaMov(origenPieza, destinoPieza, posicionPiezas)) { //Pieza del 1er click llama a SU validar movimiento (polimorfismo)
 				posicionPiezas[destinoPieza.x][destinoPieza.y] = posicionPiezas[origenPieza.x][origenPieza.y]; //Se le asigna la nueva posición a la pieza
 				posicionPiezas[origenPieza.x][origenPieza.y] = nullptr; //Se elimina la pieza del origen
 
-					// Captura al paso
-					if (alPasoTurn == false
-						&& posicionPiezas[destinoPieza.x][destinoPieza.y] != nullptr //Por seguridad
-						&& posicionPiezas[destinoPieza.x][destinoPieza.y]->alPasoOk) {
+				// Captura al paso
+				if (posicionPiezas[destinoPieza.x][destinoPieza.y] != nullptr) {
+					if (posicionPiezas[destinoPieza.x][destinoPieza.y]->alPasoPresa) {
 						alPasoTurn = true;
-						posicionPiezas[destinoPieza.x][destinoPieza.y]->alPasoOk = false;
+						for (int i = 0; i < limite_columnas; i++) {
+							for (int j = 0; j < limite_filas; j++) {
+								if (posicionPiezas[i][j] != nullptr && posicionPiezas[i][j] != posicionPiezas[destinoPieza.x][destinoPieza.y]) {
+									posicionPiezas[i][j]->alPasoPresa = false;
+								}
+							}
+						}
 					}
-					else if (alPasoTurn && posicionPiezas[destinoPieza.x][destinoPieza.y] != nullptr) {
-						if (posicionPiezas[destinoPieza.x][destinoPieza.y]->alPasoOk) {
+					else if (alPasoTurn) {
+						if (posicionPiezas[destinoPieza.x][destinoPieza.y]->alPasoDone == true) {
 							if (turno == BLANCAS)
 								posicionPiezas[destinoPieza.x][5] = nullptr;
-							else
+							else if (turno == NEGRAS)
 								posicionPiezas[destinoPieza.x][4] = nullptr;
-							posicionPiezas[destinoPieza.x][destinoPieza.y]->alPasoOk = false;
+							posicionPiezas[destinoPieza.x][destinoPieza.y]->alPasoDone = false;
+						}
+						else {
+							for (int i = 0; i < limite_columnas; i++) {
+								for (int j = 0; j < limite_filas; j++) {
+									if (posicionPiezas[i][j] != nullptr && posicionPiezas[i][j] != posicionPiezas[destinoPieza.x][destinoPieza.y]) {
+										posicionPiezas[i][j]->alPasoPresa = false;
+									}
+								}
+							}
 						}
 						alPasoTurn = false;
 					}
-					//
-					if (Jaque(posicionPiezas)) {
-						contadorClick = 0;
-						cout << "Movimiento no valido por posicion en jaque" << endl;
-						for (int i = 0; i < limite_columnas; i++) {
-							for (int j = 0; j < limite_filas; j++) {
-								posicionPiezas[i][j] = posicionPiezas_aux[i][j]; //Se mantienen las posiciones originales
-							}
-						}
+				}
+				//
 
+				if (Jaque(posicionPiezas)) {
+					contadorClick = 0;
+					cout << "Movimiento no valido por posicion en jaque" << endl;
+					for (int i = 0; i < limite_columnas; i++) {
+						for (int j = 0; j < limite_filas; j++) {
+							posicionPiezas[i][j] = posicionPiezas_aux[i][j]; //Se mantienen las posiciones originales
+						}
 					}
-					else {
-						ETSIDI::playMusica("bin/sonidos/correcto.mp3");
-						turno = (turno == BLANCAS) ? NEGRAS : BLANCAS; //Cambio de turno
-						cout << "TURNO DE: " << turno << endl;
-					}
-			} else { 
-				contadorClick = 0; 
+
+				}
+				else {
+					ETSIDI::playMusica("bin/sonidos/correcto.mp3");
+					turno = (turno == BLANCAS) ? NEGRAS : BLANCAS; //Cambio de turno
+					cout << "TURNO DE: " << turno << endl;
+				}
+			}
+			else {
+				contadorClick = 0;
 				ETSIDI::playMusica("bin/sonidos/error.mp3");
-				cout << "2o click NO valido por movimiento de la propia pieza" << endl; 
+				cout << "2o click NO valido por movimiento de la propia pieza" << endl;
 			}//Reiniciamos el turno
 		}
 	}

@@ -29,7 +29,7 @@ public:
 		return tipo;
 	}
 
-	bool alPasoOk = 0; //Solo lo van a usar los peones
-	bool alPasoTurno = 0; //Solo lo van a usar los peones
+	bool alPasoPresa = 0; //Facultad de pieza que es susceptible a captura al peon
+	bool alPasoDone = 0; //Flag de pieza que ha capturado al peon exitosamente
 };
 

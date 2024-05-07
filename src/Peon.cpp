@@ -27,11 +27,6 @@ void Peon::Dibuja(){
 
 bool Peon::ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[11][10])
 {
-	if (alPasoTurno == false) //Reestablecer peon al paso
-		alPasoOk = false;
-
-	alPasoTurno = false; //Reestablecer peon al paso
-
 	if (destino.y + destino.x > 15 || destino.y + destino.x < 4 ||
 		destino.x - destino.y < -5 || destino.x - destino.y > 6) { //Se sale del tablero
 		return false;
@@ -40,8 +35,12 @@ bool Peon::ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[11
 		Vector2D res = destino - origen;
 
 		if (Pieza::color == BLANCO) { //Piezas blancas
-
+			bool alPasoOk = 0;
+			if (posicionPiezas[destino.x][destino.y - 1] != nullptr)
+				if (posicionPiezas[destino.x][destino.y - 1]->alPasoPresa == true)
+					alPasoOk = 1;
 			if (abs(res.x) == 1 && res.y == 1 && (posicionPiezas[destino.x][destino.y] != nullptr || alPasoOk)) { //Mover en diagonal comiendo pieza
+				alPasoDone = true;
 				return true;
 			}
 			else if (res.x == 0) { //Mover en vertical
@@ -49,18 +48,7 @@ bool Peon::ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[11
 				{
 					if ((res.y == 2 && posicionPiezas[origen.x][origen.y + 1] == nullptr && posicionPiezas[origen.x][origen.y + 2] == nullptr)
 						|| (res.y == 1 && posicionPiezas[origen.x][origen.y + 1] == nullptr)) { //Puede moverse uno o dos si no hay pieza en destino
-						if (posicionPiezas[destino.x - 1][destino.y] != nullptr //Captura peon al paso
-							&& posicionPiezas[destino.x - 1][destino.y]->getTipo() == PEON
-							&& posicionPiezas[destino.x - 1][destino.y]->getColor() == NEGRO) {
-							posicionPiezas[destino.x - 1][destino.y]->alPasoOk = 1;
-							alPasoOk = true;
-						}
-						if (posicionPiezas[destino.x + 1][destino.y] != nullptr
-							&& posicionPiezas[destino.x + 1][destino.y]->getTipo() == PEON
-							&& posicionPiezas[destino.x + 1][destino.y]->getColor() == NEGRO) {
-							posicionPiezas[destino.x + 1][destino.y]->alPasoOk = 1;
-							alPasoOk = true;
-						}
+						alPasoPresa = true;
 						return true;
 					}
 					else
@@ -78,8 +66,12 @@ bool Peon::ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[11
 		}
 
 		else { //Piezas negras
-
+			bool alPasoOk = 0;
+			if (posicionPiezas[destino.x][destino.y + 1] != nullptr)
+				if (posicionPiezas[destino.x][destino.y + 1]->alPasoPresa == true)
+					alPasoOk = 1;
 			if (abs(res.x) == 1 && res.y == -1 && (posicionPiezas[destino.x][destino.y] != nullptr || alPasoOk)) { //Mover en diagonal comiendo pieza
+				alPasoDone = true;
 				return true;
 			}
 			else if (res.x == 0) { //Mover en vertical
@@ -87,18 +79,7 @@ bool Peon::ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[11
 				{
 					if ((res.y == -2 && posicionPiezas[origen.x][origen.y - 1] == nullptr && posicionPiezas[origen.x][origen.y - 2] == nullptr)
 						|| (res.y == -1 && res.x == 0 && posicionPiezas[origen.x][origen.y - 1] == nullptr)) { //Puede moverse uno o dos si no hay pieza en destino
-						if (posicionPiezas[destino.x - 1][destino.y] != nullptr //Captura peon al paso
-							&& posicionPiezas[destino.x - 1][destino.y]->getTipo() == PEON
-							&& posicionPiezas[destino.x - 1][destino.y]->getColor() == BLANCO) {
-							posicionPiezas[destino.x - 1][destino.y]->alPasoOk = true;
-							alPasoOk = true;
-						}
-						if (posicionPiezas[destino.x + 1][destino.y] != nullptr //Captura peon al paso
-							&& posicionPiezas[destino.x + 1][destino.y]->getTipo() == PEON
-							&& posicionPiezas[destino.x + 1][destino.y]->getColor() == BLANCO) {
-							posicionPiezas[destino.x + 1][destino.y]->alPasoOk = true;
-							alPasoOk = true;
-						}
+						alPasoPresa = true;
 						return true;
 					}
 					else
