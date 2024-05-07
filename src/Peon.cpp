@@ -35,16 +35,18 @@ bool Peon::ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[11
 		Vector2D res = destino - origen;
 
 		if (Pieza::color == BLANCO) { //Piezas blancas
-			bool alPasoOk = 0;
-			if (posicionPiezas[destino.x][destino.y - 1] != nullptr)
-				if (posicionPiezas[destino.x][destino.y - 1]->alPasoPresa == true)
-					alPasoOk = 1;
-			if (abs(res.x) == 1 && res.y == 1 && (posicionPiezas[destino.x][destino.y] != nullptr || alPasoOk)) { //Mover en diagonal comiendo pieza
-				alPasoDone = true;
-				return true;
+			if (abs(res.x) == 1 && res.y == 1) { //Mover en diagonal para delante
+				if (posicionPiezas[destino.x][destino.y] != nullptr) //Si puede comer pieza
+					return true;
+				else if (posicionPiezas[destino.x][destino.y - 1] != nullptr && posicionPiezas[destino.x][destino.y - 1]->alPasoPresa) { //Si puede hacer captura
+					alPasoDone = true;
+					return true;
+				}
+				else //Resto de movimientos diagonales invalidos
+					return false;
 			}
 			else if (res.x == 0) { //Mover en vertical
-				if (origen.y == 2) //Está en posicion de salida de los peones
+				if (origen.y == 2) //Esta en posicion de salida de los peones
 				{
 					if ((res.y == 2 && posicionPiezas[origen.x][origen.y + 1] == nullptr && posicionPiezas[origen.x][origen.y + 2] == nullptr)
 						|| (res.y == 1 && posicionPiezas[origen.x][origen.y + 1] == nullptr)) { //Puede moverse uno o dos si no hay pieza en destino
@@ -61,21 +63,23 @@ bool Peon::ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[11
 						return false;
 				}
 			}
-			else //Mover en horizontal
+			else //Mover en horizontal u otros movimientos invalidos
 				return false;
 		}
 
 		else { //Piezas negras
-			bool alPasoOk = 0;
-			if (posicionPiezas[destino.x][destino.y + 1] != nullptr)
-				if (posicionPiezas[destino.x][destino.y + 1]->alPasoPresa == true)
-					alPasoOk = 1;
-			if (abs(res.x) == 1 && res.y == -1 && (posicionPiezas[destino.x][destino.y] != nullptr || alPasoOk)) { //Mover en diagonal comiendo pieza
-				alPasoDone = true;
-				return true;
+			if (abs(res.x) == 1 && res.y == -1) { //Mover en diagonal para delante
+				if (posicionPiezas[destino.x][destino.y] != nullptr) //Si puede comer pieza
+					return true;
+				else if (posicionPiezas[destino.x][destino.y + 1] != nullptr && posicionPiezas[destino.x][destino.y + 1]->alPasoPresa) { //Si puede hacer captura
+					alPasoDone = true;
+					return true;
+				}
+				else //Resto de movimientos diagonales invalidos
+					return false;
 			}
 			else if (res.x == 0) { //Mover en vertical
-				if (origen.y == 7) //Está en posicion de salida de los peones
+				if (origen.y == 7) //Esta en posicion de salida de los peones
 				{
 					if ((res.y == -2 && posicionPiezas[origen.x][origen.y - 1] == nullptr && posicionPiezas[origen.x][origen.y - 2] == nullptr)
 						|| (res.y == -1 && res.x == 0 && posicionPiezas[origen.x][origen.y - 1] == nullptr)) { //Puede moverse uno o dos si no hay pieza en destino
