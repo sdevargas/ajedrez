@@ -33,6 +33,7 @@ void Reina::Dibuja(){
 
 	glDisable(GL_BLEND);
 	glEnable(GL_LIGHTING);
+	
 }
 
 bool Reina::ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[11][10])

@@ -1,5 +1,7 @@
 #include "Mundo.h"
 #include <stdlib.h>
+#include "freeglut.h"
+#include "ETSIDI.h"
 
 Mundo::Mundo()
 {
@@ -11,6 +13,19 @@ void Mundo::Dibuja()
 {
 	if (estado == INICIO) {
 		//Sprite Menú principal
+		gluLookAt(0, 7.5, 30, // posicion del ojo
+			0.0, 7.5, 0.0, // hacia que punto mira (0,7.5,0)
+			0.0, 1.0, 0.0); // definimos hacia arriba (eje Y)
+
+		ETSIDI::setTextColor(1, 1, 1);
+		ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 100);
+		ETSIDI::printxy("JAQUE MATEAM", -13, 20);
+
+		ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 35);
+		ETSIDI::printxy("Pulse n para modo normal", -10, 5);
+
+		ETSIDI::setFont("bin/fuentes/Starjedi.ttf", 20);
+		ETSIDI::printxy("Pulse s para modo STAR WARS", -10, 0);
 	}
 	else if (estado == JUEGO_NORMAL) {
 		
@@ -27,6 +42,37 @@ void Mundo::Dibuja()
 		//Sprite Ganan las blancas
 	}
 	else if (estado == PROMOCION) {
+		gluLookAt(0, 7.5, 30, // posicion del ojo
+			0.0, 7.5, 0.0, // hacia que punto mira (0,7.5,0)
+			0.0, 1.0, 0.0); // definimos hacia arriba (eje Y)
+
+		ETSIDI::setTextColor(1, 1, 1);
+		ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 50);
+		ETSIDI::printxy("Seleccione la pieza a promocionar", -16, 20);
+
+		ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 30);
+		ETSIDI::printxy("Pulse:", -16, 15);
+
+		ETSIDI::setFont("bin/fuentes/CHEQ_TT.TTF", 60);
+		ETSIDI::printxy("b", -6, 7);
+		ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 30);
+		ETSIDI::printxy("a", -4, 5);
+
+		ETSIDI::setFont("bin/fuentes/CHEQ_TT.TTF", 60);
+		ETSIDI::printxy("h", -1, 7);
+		ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 30);
+		ETSIDI::printxy("c", 1, 5);
+
+		ETSIDI::setFont("bin/fuentes/CHEQ_TT.TTF", 60);
+		ETSIDI::printxy("q", 4, 7);
+		ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 30);
+		ETSIDI::printxy("r", 6, 5);
+
+		ETSIDI::setFont("bin/fuentes/CHEQ_TT.TTF", 60);
+		ETSIDI::printxy("r", 9, 7);
+		ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 30);
+		ETSIDI::printxy("t", 11, 5);
+
 		//Sprite Selección promocionado 
 	}
 	else if (estado == PAUSA) {
