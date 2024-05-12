@@ -1,10 +1,23 @@
 #pragma once
 #include "Tablero.h"
+#include"Juego.h"
+#include"JuegoNormal.h"
+#include"JuegoSW.h"
 
 class Mundo {
 public:
-	Tablero tablero;
-
 	Mundo();
-	void PuedeHacerMov(int x, int y);	//Le pide a tablero que compruebe si puede realizar un movimiento después de hacer un click
+	void PuedeHacerMov(int columna, int fila);	//Le pide a tablero que compruebe si puede realizar un movimiento después de hacer un click
+
+	/*virtual ~Mundo();*/
+	
+	void Dibuja();
+	void tecla(unsigned char key);
+
+protected:
+	Juego* juego;
+
+	enum Estado {INICIO, JUEGO_NORMAL, JUEGO_SW, PAUSA, MATE_AL_B, MATE_AL_N, PROMOCION};
+	Estado estadoAnterior;
+	Estado estado;
 };

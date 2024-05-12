@@ -4,10 +4,18 @@
 
 void Rey::Dibuja(){
 	glEnable(GL_TEXTURE_2D);
-	if (color == BLANCO) {
-		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/reyB.png").id);
+	if (modoJuego == NORMAL) {
+		if (color == BLANCO) {
+			glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/reyB.png").id);
+		}
+		else glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/reyN.png").id);
 	}
-	else glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/reyN.png").id);
+	else if (modoJuego == SW){
+		if (color == BLANCO) {
+			glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/reyBsw.png").id);
+		}
+		else glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/reyNsw.png").id);
+	}
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

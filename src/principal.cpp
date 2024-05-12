@@ -78,7 +78,7 @@ void OnDraw(void)
 	glDisable(GL_TEXTURE_2D);*/
 
 	//DIBUJAR TABLERO
-	mundo.tablero.Dibuja();
+	mundo.Dibuja();
 
 
 	//no borrar esta linea ni poner nada despues
@@ -87,7 +87,7 @@ void OnDraw(void)
 void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 {
 	//poner aqui el código de teclado
-	
+	mundo.tecla(key);
 
 	glutPostRedisplay();
 }

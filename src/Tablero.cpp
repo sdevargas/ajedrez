@@ -4,8 +4,7 @@
 #include<iostream>
 using namespace std;
 
-Tablero::Tablero(){
-
+Tablero::Tablero(Tablero::Modo m){
 	contadorClick = 0;
 
 	//Hacemos nullptr todas las casillas para que no haya basura
@@ -18,32 +17,32 @@ Tablero::Tablero(){
 	/*Se hace de manera denámica porque no siempre tendrás las mismas piezas*/
 	//PEONES
 	for (int columna = 2; columna < 9; columna++) {
-		posicionPiezas[columna][2] = new Peon(Pieza::BLANCO);
+		posicionPiezas[columna][2] = new Peon(Pieza::BLANCO , (Pieza::Modo) m);
 	}
 	for (int columna = 2; columna < 9; columna++) {
-		posicionPiezas[columna][7] = new Peon(Pieza::NEGRO);
+		posicionPiezas[columna][7] = new Peon(Pieza::NEGRO, (Pieza::Modo) m);
 	}
 	//TORRES
-	posicionPiezas[3][1] = new Torre(Pieza::BLANCO);
-	posicionPiezas[7][1] = new Torre(Pieza::BLANCO);
-	posicionPiezas[3][8] = new Torre(Pieza::NEGRO);
-	posicionPiezas[7][8] = new Torre(Pieza::NEGRO);
+	posicionPiezas[3][1] = new Torre(Pieza::BLANCO, (Pieza::Modo)m);
+	posicionPiezas[7][1] = new Torre(Pieza::BLANCO, (Pieza::Modo)m);
+	posicionPiezas[3][8] = new Torre(Pieza::NEGRO, (Pieza::Modo)m);
+	posicionPiezas[7][8] = new Torre(Pieza::NEGRO, (Pieza::Modo)m);
 	//CABALLOS
-	posicionPiezas[4][1] = new Caballo(Pieza::BLANCO);
-	posicionPiezas[6][1] = new Caballo(Pieza::BLANCO);
-	posicionPiezas[4][8] = new Caballo(Pieza::NEGRO);
-	posicionPiezas[6][8] = new Caballo(Pieza::NEGRO);
+	posicionPiezas[4][1] = new Caballo(Pieza::BLANCO, (Pieza::Modo)m);
+	posicionPiezas[6][1] = new Caballo(Pieza::BLANCO, (Pieza::Modo)m);
+	posicionPiezas[4][8] = new Caballo(Pieza::NEGRO, (Pieza::Modo)m);
+	posicionPiezas[6][8] = new Caballo(Pieza::NEGRO, (Pieza::Modo)m);
 	//ALFILES
-	posicionPiezas[5][1] = new Alfil(Pieza::BLANCO);
-	posicionPiezas[5][0] = new Alfil(Pieza::BLANCO);
-	posicionPiezas[5][8] = new Alfil(Pieza::NEGRO);
-	posicionPiezas[5][9] = new Alfil(Pieza::NEGRO);
+	posicionPiezas[5][1] = new Alfil(Pieza::BLANCO, (Pieza::Modo)m);
+	posicionPiezas[5][0] = new Alfil(Pieza::BLANCO, (Pieza::Modo)m);
+	posicionPiezas[5][8] = new Alfil(Pieza::NEGRO, (Pieza::Modo)m);
+	posicionPiezas[5][9] = new Alfil(Pieza::NEGRO, (Pieza::Modo)m);
 	//REYES
-	posicionPiezas[4][0] = new Rey(Pieza::BLANCO);
-	posicionPiezas[4][9] = new Rey(Pieza::NEGRO);
+	posicionPiezas[4][0] = new Rey(Pieza::BLANCO, (Pieza::Modo)m);
+	posicionPiezas[4][9] = new Rey(Pieza::NEGRO, (Pieza::Modo)m);
 	//REINAS
-	posicionPiezas[6][0] = new Reina(Pieza::BLANCO);
-	posicionPiezas[6][9] = new Reina(Pieza::NEGRO);
+	posicionPiezas[6][0] = new Reina(Pieza::BLANCO, (Pieza::Modo)m);
+	posicionPiezas[6][9] = new Reina(Pieza::NEGRO, (Pieza::Modo)m);
 
 
 
@@ -88,21 +87,6 @@ void Tablero::Dibuja(){
 		}
 	}
 
-	//DIBUJO DEL FONDO
-	glTranslatef(5.6, -2, 0); //Movemos el eje para que se dibuje centrado
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/fondo.png").id);
-	glDisable(GL_LIGHTING);
-	glBegin(GL_POLYGON);
-	glColor3f(1, 1, 1);
-	glTexCoord2d(0, 1); glVertex3f(-10, 0, -0.01f);
-	glTexCoord2d(1, 1); glVertex3f(10, 0, -0.01f);
-	glTexCoord2d(1, 0); glVertex3f(10, 15, -0.01f);
-	glTexCoord2d(0, 0); glVertex3f(-10, 15, -0.01f);
-	glEnd();
-	glEnable(GL_LIGHTING);
-	glDisable(GL_TEXTURE_2D);
-	glTranslatef(-5.6, +2, 0); //Revertimos el desplazamiento del eje
 }
 
 void Tablero::Mueve(int x, int y)
@@ -214,6 +198,7 @@ void Tablero::Mueve(int x, int y)
 	}
 	
 }
+
 
 bool Tablero::Jaque(Pieza* posicionPiezas_aux[limite_columnas][limite_filas])
 {

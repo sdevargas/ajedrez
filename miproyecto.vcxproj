@@ -21,6 +21,9 @@
   <ItemGroup>
     <ClCompile Include="src\Alfil.cpp" />
     <ClCompile Include="src\Caballo.cpp" />
+    <ClCompile Include="src\Juego.cpp" />
+    <ClCompile Include="src\JuegoNormal.cpp" />
+    <ClCompile Include="src\JuegoSW.cpp" />
     <ClCompile Include="src\Mundo.cpp" />
     <ClCompile Include="src\Peon.cpp" />
     <ClCompile Include="src\Pieza.cpp" />
@@ -33,6 +36,9 @@
   <ItemGroup>
     <ClInclude Include="src\Alfil.h" />
     <ClInclude Include="src\Caballo.h" />
+    <ClInclude Include="src\Juego.h" />
+    <ClInclude Include="src\JuegoNormal.h" />
+    <ClInclude Include="src\JuegoSW.h" />
     <ClInclude Include="src\Mundo.h" />
     <ClInclude Include="src\Peon.h" />
     <ClInclude Include="src\Pieza.h" />

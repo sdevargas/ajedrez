@@ -4,11 +4,21 @@
 
 void Reina::Dibuja(){
 	glEnable(GL_TEXTURE_2D);
-	if (color == BLANCO) {
-		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/reinaB.png").id);
-	}
-	else glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/reinaN.png").id);
 
+	if (modoJuego == NORMAL) {
+		if (color == BLANCO) {
+			glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/reinaB.png").id);
+		}
+		else glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/reinaN.png").id);
+	}
+	else if (modoJuego == SW) {
+		if (color == BLANCO) {
+			glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/reinaBsw.png").id);
+		}
+		else glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/reinaNsw.png").id);
+	}
+
+	
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDisable(GL_LIGHTING);

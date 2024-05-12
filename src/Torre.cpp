@@ -4,10 +4,19 @@
 
 void Torre::Dibuja(){
 	glEnable(GL_TEXTURE_2D);
-	if (color == BLANCO) {
-		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/torreB.png").id);
+	if (modoJuego == NORMAL) {
+		if (color == BLANCO) {
+			glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/torreB.png").id);
+		}
+		else glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/torreN.png").id);
 	}
-	else glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/torreN.png").id);
+	else if (modoJuego == SW) {
+		if (color == BLANCO) {
+			glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/torreBsw.png").id);
+		}
+		else glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/torreNsw.png").id);
+	}
+
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

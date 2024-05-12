@@ -5,15 +5,18 @@ class Pieza {
 public:
 	typedef enum {BLANCO=0, NEGRO} Color; //Se define un tipo de dato para color
 	typedef enum {PEON=0, TORRE, CABALLO, ALFIL, REINA, REY} Tipo; //Se define un tipo de dato para las piezas
+	typedef enum { NORMAL = 0, SW }Modo;
 
 protected:
 	Color color;
 	Tipo tipo;
+	Modo modoJuego;
 
 public: 
-	Pieza(Color color, Tipo tipo) {
+	Pieza(Color color, Tipo tipo, Modo m) {
 		this->color = color;
 		this-> tipo = tipo;
+		this->modoJuego = m;
 	}
 	
 	/*Estos métodos son virtuales porque cada pieza haga lo que le toca de una manera concreta,
