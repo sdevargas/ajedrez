@@ -45,33 +45,64 @@ void Mundo::Dibuja()
 		gluLookAt(0, 7.5, 30, // posicion del ojo
 			0.0, 7.5, 0.0, // hacia que punto mira (0,7.5,0)
 			0.0, 1.0, 0.0); // definimos hacia arriba (eje Y)
+		if (estadoAnterior==JUEGO_NORMAL) {
+			ETSIDI::setTextColor(1, 1, 1);
+			ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 50);
+			ETSIDI::printxy("Seleccione la pieza a promocionar", -16, 20);
 
-		ETSIDI::setTextColor(1, 1, 1);
-		ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 50);
-		ETSIDI::printxy("Seleccione la pieza a promocionar", -16, 20);
+			ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 30);
+			ETSIDI::printxy("Pulse:", -16, 15);
 
-		ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 30);
-		ETSIDI::printxy("Pulse:", -16, 15);
+			ETSIDI::setFont("bin/fuentes/CHEQ_TT.TTF", 60);
+			ETSIDI::printxy("b", -6, 7);
+			ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 30);
+			ETSIDI::printxy("a", -4, 5);
 
-		ETSIDI::setFont("bin/fuentes/CHEQ_TT.TTF", 60);
-		ETSIDI::printxy("b", -6, 7);
-		ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 30);
-		ETSIDI::printxy("a", -4, 5);
+			ETSIDI::setFont("bin/fuentes/CHEQ_TT.TTF", 60);
+			ETSIDI::printxy("h", -1, 7);
+			ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 30);
+			ETSIDI::printxy("c", 1, 5);
 
-		ETSIDI::setFont("bin/fuentes/CHEQ_TT.TTF", 60);
-		ETSIDI::printxy("h", -1, 7);
-		ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 30);
-		ETSIDI::printxy("c", 1, 5);
+			ETSIDI::setFont("bin/fuentes/CHEQ_TT.TTF", 60);
+			ETSIDI::printxy("q", 4, 7);
+			ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 30);
+			ETSIDI::printxy("r", 6, 5);
 
-		ETSIDI::setFont("bin/fuentes/CHEQ_TT.TTF", 60);
-		ETSIDI::printxy("q", 4, 7);
-		ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 30);
-		ETSIDI::printxy("r", 6, 5);
+			ETSIDI::setFont("bin/fuentes/CHEQ_TT.TTF", 60);
+			ETSIDI::printxy("r", 9, 7);
+			ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 30);
+			ETSIDI::printxy("t", 11, 5);
+			
+		}
+		else if (estadoAnterior==JUEGO_SW) {
+			ETSIDI::setTextColor(1, 1, 1);
+			ETSIDI::setFont("bin/fuentes/Starjedi.ttf", 24);
+			ETSIDI::printxy("Seleccione la pieza a promocionar", -16, 20);
 
-		ETSIDI::setFont("bin/fuentes/CHEQ_TT.TTF", 60);
-		ETSIDI::printxy("r", 9, 7);
-		ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 30);
-		ETSIDI::printxy("t", 11, 5);
+			ETSIDI::setFont("bin/fuentes/Starjedi.ttf", 30);
+			ETSIDI::printxy("Pulse:", -16, 15);
+
+			ETSIDI::setFont("bin/fuentes/CHEQ_TT.TTF", 60);
+			ETSIDI::printxy("b", -6, 7);
+			ETSIDI::setFont("bin/fuentes/Starjedi.ttf", 30);
+			ETSIDI::printxy("a", -4, 5);
+
+			ETSIDI::setFont("bin/fuentes/CHEQ_TT.TTF", 60);
+			ETSIDI::printxy("h", -1, 7);
+			ETSIDI::setFont("bin/fuentes/Starjedi.ttf", 30);
+			ETSIDI::printxy("c", 1, 5);
+
+			ETSIDI::setFont("bin/fuentes/CHEQ_TT.TTF", 60);
+			ETSIDI::printxy("q", 4, 7);
+			ETSIDI::setFont("bin/fuentes/Starjedi.ttf", 30);
+			ETSIDI::printxy("r", 6, 5);
+
+			ETSIDI::setFont("bin/fuentes/CHEQ_TT.TTF", 60);
+			ETSIDI::printxy("r", 9, 7);
+			ETSIDI::setFont("bin/fuentes/Starjedi.ttf", 30);
+			ETSIDI::printxy("t", 11, 5);
+		}
+		
 
 		//Sprite Selección promocionado 
 	}
