@@ -4,6 +4,7 @@
 JuegoNormal::JuegoNormal() 
 {
 	tablero = new Tablero(Tablero::NORMAL);
+	promocion = false;
 }
 
 void JuegoNormal::Dibuja()
@@ -29,6 +30,6 @@ void JuegoNormal::Dibuja()
 
 void JuegoNormal::Mueve(int columna, int fila)
 {
-
 	tablero->Mueve(columna, fila);
+	promocion = tablero->getPromocion();
 }

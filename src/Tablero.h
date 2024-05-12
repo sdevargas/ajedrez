@@ -21,6 +21,9 @@ private:
 	int contadorClick;
 	Vector2D origenPieza, destinoPieza;
 	bool alPasoTurn = 0; //Para indicar que al siguiente turno se puede producir captura al paso
+	bool promocion = false; //Flag para saber si puede o no haber promocion
+	Vector2D coordPromocion;
+	Modo modo;
 
 public:
 	Pieza* posicionPiezas[limite_columnas][limite_filas]; //Se crea una matriz para albergar la posición de las piezas en el tablero
@@ -31,4 +34,12 @@ public:
 	void Dibuja();
 	void Mueve(int x, int y);
 	bool Jaque(Pieza* [limite_columnas][limite_filas]);
+	void Promocion();
+	void cambiaPromocion(Pieza::Tipo tipo);
+
+	bool getPromocion() {
+		bool result = promocion;
+		promocion = false;
+		return result;
+	}
 };

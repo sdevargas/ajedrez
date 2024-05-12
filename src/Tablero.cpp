@@ -7,6 +7,8 @@ using namespace std;
 Tablero::Tablero(Tablero::Modo m){
 	contadorClick = 0;
 
+	modo = m;
+
 	//Hacemos nullptr todas las casillas para que no haya basura
 	for (int columna = 0; columna < limite_columnas; columna++) {
 		for (int fila = 0; fila < limite_filas; fila++) {
@@ -185,6 +187,7 @@ void Tablero::Mueve(int x, int y)
 				}
 				else {
 					ETSIDI::playMusica("bin/sonidos/correcto.mp3");
+					Promocion(); //Llamamos a la funcion que comprueba si es posible la promocion del peon
 					turno = (turno == BLANCAS) ? NEGRAS : BLANCAS; //Cambio de turno
 					cout << "TURNO DE: " << turno << endl;
 				}
@@ -198,6 +201,7 @@ void Tablero::Mueve(int x, int y)
 	}
 	
 }
+
 
 
 bool Tablero::Jaque(Pieza* posicionPiezas_aux[limite_columnas][limite_filas])
@@ -251,5 +255,51 @@ bool Tablero::Jaque(Pieza* posicionPiezas_aux[limite_columnas][limite_filas])
 
 	return respuesta;
 
+	
+}
+
+void Tablero::Promocion()
+{
+	int primeraFila = 0;
+	if (turno == BLANCAS) {
+		primeraFila = 8;
+	}
+	else if (turno == NEGRAS) {
+		primeraFila = 0;
+	}
+
+	for (int i = primeraFila; i <= (primeraFila + 1); i++) {
+		for (int j = 0; j < limite_columnas; j++) {
+			if (posicionPiezas[j][i] != nullptr) {
+				if ((posicionPiezas[j][i]->getTipo() == Pieza::PEON) && (posicionPiezas[j][i]->getColor() == turno)) {
+					promocion = true;
+					coordPromocion = { j, i };
+					return;
+				}
+				else continue;
+			}
+		}
+	}
+	promocion = false;
+}
+
+void Tablero::cambiaPromocion(Pieza::Tipo tipo)
+{
+	turno = (turno == BLANCAS) ? NEGRAS : BLANCAS;
+	switch (tipo) {
+	case Pieza::TORRE:
+		posicionPiezas[coordPromocion.x][coordPromocion.y] = new Torre((Pieza::Color) turno, (Pieza::Modo)modo);
+		break;
+	case Pieza::ALFIL:
+		posicionPiezas[coordPromocion.x][coordPromocion.y] = new Alfil((Pieza::Color)turno, (Pieza::Modo)modo);
+		break;
+	case Pieza::CABALLO:
+		posicionPiezas[coordPromocion.x][coordPromocion.y] = new Caballo((Pieza::Color)turno, (Pieza::Modo)modo);
+		break;
+	case Pieza::REINA:
+		posicionPiezas[coordPromocion.x][coordPromocion.y] = new Reina((Pieza::Color)turno, (Pieza::Modo)modo);
+		break;
+	}
+	turno = (turno == BLANCAS) ? NEGRAS : BLANCAS;
 	
 }

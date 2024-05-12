@@ -13,11 +13,11 @@ void Mundo::Dibuja()
 		//Sprite Menú principal
 	}
 	else if (estado == JUEGO_NORMAL) {
-		//Poner los sprites correspondientes, añadir atributo a las piezas
+		
 		juego->Dibuja();
 	}
 	else if (estado == JUEGO_SW) {
-		//Poner los sprites correspondientes, añadir atributo a las piezas
+		
 		juego->Dibuja();
 	}
 	else if (estado == MATE_AL_B) {
@@ -66,6 +66,22 @@ void Mundo::tecla(unsigned char key)
 		}
 	}
 	else if (estado == PROMOCION) {
+		if (key == 't') {
+			juego->setTipoPromo(Pieza::TORRE);
+			estado = estadoAnterior;
+		}
+		else if (key == 'a') {
+			juego->setTipoPromo(Pieza::ALFIL);
+			estado = estadoAnterior;
+		}
+		else if (key == 'c') {
+			juego->setTipoPromo(Pieza::CABALLO);
+			estado = estadoAnterior;
+		}
+		else if (key == 'r') {
+			juego->setTipoPromo(Pieza::REINA);
+			estado = estadoAnterior;
+		}
 		//Seleccion de pieza en función de letra
 	}
 }
@@ -73,7 +89,10 @@ void Mundo::tecla(unsigned char key)
 void Mundo::PuedeHacerMov(int columna, int fila)
 {
 	if (estado == JUEGO_NORMAL || estado == JUEGO_SW) {
-
 		juego->Mueve(columna, fila); //Le pasamos a trablero las coordenadas del click
+		if (juego->getPromocion()) {
+			estadoAnterior = estado;
+			estado = PROMOCION;
+		}
 	}
 }

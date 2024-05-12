@@ -5,6 +5,7 @@
 JuegoSW::JuegoSW() 
 {
 	tablero = new Tablero(Tablero:: SW);
+	promocion = false;
 }
 
 void JuegoSW::Dibuja()
@@ -30,4 +31,5 @@ void JuegoSW::Dibuja()
 void JuegoSW::Mueve(int columna, int fila)
 {
 	tablero->Mueve(columna, fila);
+	promocion=tablero->getPromocion();
 }
