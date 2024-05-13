@@ -42,12 +42,16 @@ bool Rey::ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[11]
 	else {
 		Vector2D res = destino - origen;
 
-		if (abs(res.x) == 1 && res.y == 0)
+		if (abs(res.x) == 1 && res.y == 0) {
+
 			return true;
-		else if (res.x == 0 && abs(res.y) == 1)
+		}
+		else if (res.x == 0 && abs(res.y) == 1) {
 			return true;
-		else if ((abs(res.x) == abs(res.y)) && (abs(res.x) == 1))
+		}
+		else if ((abs(res.x) == abs(res.y)) && (abs(res.x) == 1)){
 			return true;
+			}
 		else
 			return false;
 	}

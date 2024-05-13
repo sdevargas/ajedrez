@@ -37,9 +37,40 @@ void Mundo::Dibuja()
 	}
 	else if (estado == MATE_AL_B) {
 		//Sprite Ganan las negras
+		//DIBUJO DEL FONDO
+		glTranslatef(5.6, -2, 0); //Movemos el eje para que se dibuje centrado
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/mate_RB.png").id);
+		glDisable(GL_LIGHTING);
+		glBegin(GL_POLYGON);
+		glColor3f(1, 1, 1);
+		glTexCoord2d(0, 1); glVertex3f(-10, 0, -0.01f);
+		glTexCoord2d(1, 1); glVertex3f(10, 0, -0.01f);
+		glTexCoord2d(1, 0); glVertex3f(10, 15, -0.01f);
+		glTexCoord2d(0, 0); glVertex3f(-10, 15, -0.01f);
+		glEnd();
+		glEnable(GL_LIGHTING);
+		glDisable(GL_TEXTURE_2D);
+		glTranslatef(-5.6, +2, 0); //Revertimos el desplazamiento del eje
+	
 	}
 	else if (estado == MATE_AL_N) {
 		//Sprite Ganan las blancas
+		//DIBUJO DEL FONDO
+		glTranslatef(5.6, -2, 0); //Movemos el eje para que se dibuje centrado
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/mate_RN.png").id);
+		glDisable(GL_LIGHTING);
+		glBegin(GL_POLYGON);
+		glColor3f(1, 1, 1);
+		glTexCoord2d(0, 1); glVertex3f(-10, 0, -0.01f);
+		glTexCoord2d(1, 1); glVertex3f(10, 0, -0.01f);
+		glTexCoord2d(1, 0); glVertex3f(10, 15, -0.01f);
+		glTexCoord2d(0, 0); glVertex3f(-10, 15, -0.01f);
+		glEnd();
+		glEnable(GL_LIGHTING);
+		glDisable(GL_TEXTURE_2D);
+		glTranslatef(-5.6, +2, 0); //Revertimos el desplazamiento del eje
 	}
 	else if (estado == PROMOCION) {
 		gluLookAt(0, 7.5, 30, // posicion del ojo
@@ -167,7 +198,13 @@ void Mundo::PuedeHacerMov(int columna, int fila)
 {
 	if (estado == JUEGO_NORMAL || estado == JUEGO_SW) {
 		juego->Mueve(columna, fila); //Le pasamos a trablero las coordenadas del click
-		if (juego->getPromocion()) {
+		if (juego->getmate_n()) {
+			estado = MATE_AL_N;
+		}
+		else if (juego->getmate_b()) {
+			estado = MATE_AL_B;
+		}
+		else if (juego->getPromocion()) {
 			estadoAnterior = estado;
 			estado = PROMOCION;
 		}

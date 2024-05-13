@@ -24,6 +24,8 @@ private:
 	bool promocion = false; //Flag para saber si puede o no haber promocion
 	Vector2D coordPromocion;
 	Modo modo;
+	bool mate_b;
+	bool mate_n;
 
 public:
 	Pieza* posicionPiezas[limite_columnas][limite_filas]; //Se crea una matriz para albergar la posición de las piezas en el tablero
@@ -34,12 +36,20 @@ public:
 	void Dibuja();
 	void Mueve(int x, int y);
 	bool Jaque(Pieza* [limite_columnas][limite_filas]);
+	bool Mate();
 	void Promocion();
 	void cambiaPromocion(Pieza::Tipo tipo);
+	bool CompMovCompleto(Vector2D origen, Vector2D destino);
 
 	bool getPromocion() {
 		bool result = promocion;
 		promocion = false;
 		return result;
+	}
+	bool getmate_b() {
+		return mate_b;
+	}
+	bool getmate_n() {
+		return mate_n;
 	}
 };

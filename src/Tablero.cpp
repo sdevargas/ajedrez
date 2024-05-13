@@ -46,6 +46,9 @@ Tablero::Tablero(Tablero::Modo m){
 	posicionPiezas[6][0] = new Reina(Pieza::BLANCO, (Pieza::Modo)m);
 	posicionPiezas[6][9] = new Reina(Pieza::NEGRO, (Pieza::Modo)m);
 
+	//mate blanco y negro
+	mate_b = false;
+	mate_n = false;
 
 
 	this->turno = BLANCAS;
@@ -187,9 +190,15 @@ void Tablero::Mueve(int x, int y)
 				}
 				else {
 					ETSIDI::playMusica("bin/sonidos/correcto.mp3");
-					Promocion(); //Llamamos a la funcion que comprueba si es posible la promocion del peon
+					Promocion();//Llamamos a la funcion que comprueba si es posible la promocion del peon
 					turno = (turno == BLANCAS) ? NEGRAS : BLANCAS; //Cambio de turno
 					cout << "TURNO DE: " << turno << endl;
+					if (Mate() == true) {
+						cout << "Jaque Mate" << endl;
+					}
+
+				
+	
 				}
 			}
 			else {
@@ -258,6 +267,51 @@ bool Tablero::Jaque(Pieza* posicionPiezas_aux[limite_columnas][limite_filas])
 	
 }
 
+bool Tablero::Mate() {
+	Vector2D origen,destino;
+	Pieza* copia_tablero[limite_columnas][limite_filas];
+	for (int i = 0; i < limite_columnas; i++) {
+		for (int j = 0; j < limite_filas; j++) {
+			copia_tablero[i][j] = posicionPiezas[i][j];
+		}
+	}
+	for (int i = 0; i < limite_columnas; i++) {
+		for (int j = 0; j < limite_filas; j++) {
+			if (posicionPiezas[i][j] != nullptr && posicionPiezas[i][j]->getColor() == turno) {
+				origen = { i,j };
+				for (int k = 0; k < limite_columnas; k++) {
+					for (int l = 0; l < limite_filas; l++) {
+						destino = { k,l };
+						if(CompMovCompleto(origen,destino)){
+							posicionPiezas[destino.x][destino.y] = posicionPiezas[origen.x][origen.y]; //Se le asigna la nueva posición a la pieza
+							posicionPiezas[origen.x][origen.y] = nullptr; //Se elimina la pieza del origen
+							if (!Jaque(posicionPiezas)) {
+								posicionPiezas[origen.x][origen.y] = copia_tablero[origen.x][origen.y];
+								posicionPiezas[destino.x][destino.y] = copia_tablero[destino.x][destino.y];
+								return false;
+							}
+							else {
+								posicionPiezas[origen.x][origen.y] = copia_tablero[origen.x][origen.y];
+								posicionPiezas[destino.x][destino.y] = copia_tablero[destino.x][destino.y];
+								continue;
+							}
+						}
+					}
+				}
+			}
+
+
+		}
+	}
+	if (turno == BLANCAS) {
+		mate_b = true;
+	}
+	else {
+		mate_n = true;
+	}
+	return true;
+}
+
 void Tablero::Promocion()
 {
 	int primeraFila = 0;
@@ -302,4 +356,12 @@ void Tablero::cambiaPromocion(Pieza::Tipo tipo)
 	}
 	turno = (turno == BLANCAS) ? NEGRAS : BLANCAS;
 	
+}
+
+bool Tablero::CompMovCompleto(Vector2D origen, Vector2D destino)
+{
+	if (posicionPiezas[destino.x][destino.y]!=nullptr && posicionPiezas[destino.x][destino.y]->getColor() == turno) {
+		return false;
+	}else if(posicionPiezas[origen.x][origen.y]->ValidaMov(origen, destino, posicionPiezas))
+		return true;
 }
