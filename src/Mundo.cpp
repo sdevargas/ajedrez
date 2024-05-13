@@ -138,8 +138,76 @@ void Mundo::Dibuja()
 		//Sprite Selección promocionado 
 	}
 	else if (estado == PAUSA) {
-		juego->Dibuja(); //Esto o el sprite
+		//juego->Dibuja(); //Esto o el sprite
 		//sprite pausa
+				
+
+		if (estadoAnterior == JUEGO_NORMAL) {
+
+			glTranslatef(5.6, -2, 0); //Movemos el eje para que se dibuje centrado
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/FondoPausa.png").id);
+			glDisable(GL_LIGHTING);
+			glBegin(GL_POLYGON);
+			glColor3f(1, 1, 1);
+			glTexCoord2d(0, 1); glVertex3f(-10.5, -5, -0.01f);
+			glTexCoord2d(1, 1); glVertex3f(10, -5, -0.01f);
+			glTexCoord2d(1, 0); glVertex3f(10, 22, -0.01f);
+			glTexCoord2d(0, 0); glVertex3f(-10.5, 22, -0.01f);
+			glEnd();
+			glEnable(GL_LIGHTING);
+			glDisable(GL_TEXTURE_2D);
+			//glTranslatef(-5.6, +2, 0); //Revertimos el desplazamiento del eje
+			
+			ETSIDI::setTextColor(155, 0, 0);
+			/*ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 50);
+			ETSIDI::printxy("Pulse: ", -16, 30);*/
+
+			ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 40);
+			ETSIDI::printxy("c para CONTINUAR", -2, 3);
+
+			ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 40);
+			ETSIDI::printxy("n para NUEVA PARTIDA", -3, 2);
+
+			ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 40);
+			ETSIDI::printxy("m para salir al MENU PRINCIPAL", -6, 1);
+
+
+		}
+		else if (estadoAnterior == JUEGO_SW) {
+
+			glTranslatef(5.6, -2, 0); //Movemos el eje para que se dibuje centrado
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/PausaModoSW.png").id);
+			glDisable(GL_LIGHTING);
+			glBegin(GL_POLYGON);
+			glColor3f(1, 1, 1);
+			glTexCoord2d(0, 1); glVertex3f(-10.5, -5, -0.01f);
+			glTexCoord2d(1, 1); glVertex3f(9, -5, -0.01f);
+			glTexCoord2d(1, 0); glVertex3f(9, 15, -0.01f);
+			glTexCoord2d(0, 0); glVertex3f(-10.5, 15, -0.01f);
+			glEnd();
+			glEnable(GL_LIGHTING);
+			glDisable(GL_TEXTURE_2D);
+			//glTranslatef(-5.6, +2, 0); //Revertimos el desplazamiento del eje
+
+			ETSIDI::setTextColor(155, 0, 0);
+			//ETSIDI::setFont("bin/fuentes/Starjedi.ttf", 50);
+			//ETSIDI::printxy("Pulse: ", -6, 5);
+
+			ETSIDI::setFont("bin/fuentes/Starjedi.ttf", 20);
+			ETSIDI::printxy("c para continuar", -2, 12);
+
+			ETSIDI::setFont("bin/fuentes/Starjedi.ttf", 20);
+			ETSIDI::printxy("n para nueva partida", -4, 11);
+
+			ETSIDI::setFont("bin/fuentes/Starjedi.ttf", 20);
+			ETSIDI::printxy("m para salir al menu principal", -7, 1);
+
+
+			
+		}
+
 	}
 }
 
@@ -164,12 +232,20 @@ void Mundo::tecla(unsigned char key)
 		}
 	}
 	else if (estado == PAUSA) {
-		if (key == 'r') {
+		if (key == 'c') {
 			estado = estadoAnterior;
 		}
+		else if (key == 'n') {
+			juego = new JuegoNormal();
+			estado = JUEGO_NORMAL;
+		}
+		else if (key == 'm') {
+			estado = INICIO;
+		}
+		//Seleccion de opciones del menu Pausa
 	}
 	else if (estado == MATE_AL_B || estado == MATE_AL_N) {
-		if (key == 'c') {
+		if (key == 'm') {
 			estado = INICIO;
 		}
 	}
