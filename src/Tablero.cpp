@@ -315,25 +315,48 @@ bool Tablero::Mate() {
 void Tablero::Promocion()
 {
 	int primeraFila = 0;
+	int segundaFila = 0;
 	if (turno == BLANCAS) {
-		primeraFila = 8;
+		primeraFila = 9;
+		segundaFila = 8;
 	}
 	else if (turno == NEGRAS) {
 		primeraFila = 0;
+		segundaFila = 1;
 	}
 
-	for (int i = primeraFila; i <= (primeraFila + 1); i++) {
-		for (int j = 0; j < limite_columnas; j++) {
-			if (posicionPiezas[j][i] != nullptr) {
-				if ((posicionPiezas[j][i]->getTipo() == Pieza::PEON) && (posicionPiezas[j][i]->getColor() == turno)) {
+	for (int j = 0; j < limite_columnas; j++) {
+		if (j==3 || j==7) {
+			if (posicionPiezas[j][segundaFila] != nullptr) {
+				if ((posicionPiezas[j][segundaFila]->getTipo() == Pieza::PEON) && (posicionPiezas[j][segundaFila]->getColor() == turno)) {
 					promocion = true;
-					coordPromocion = { j, i };
+					coordPromocion = { j, segundaFila };
 					return;
 				}
-				else continue;
 			}
 		}
+		else if (posicionPiezas[j][primeraFila] != nullptr) {
+			if ((posicionPiezas[j][primeraFila]->getTipo() == Pieza::PEON) && (posicionPiezas[j][primeraFila]->getColor() == turno)) {
+				promocion = true;
+				coordPromocion = { j, primeraFila };
+				return;
+			}
+			else continue;
+		}
 	}
+
+	//for (int i = primeraFila; i <= (primeraFila + 1); i++) {
+	//	for (int j = 0; j < limite_columnas; j++) {
+	//		if (posicionPiezas[j][i] != nullptr) {
+	//			if ((posicionPiezas[j][i]->getTipo() == Pieza::PEON) && (posicionPiezas[j][i]->getColor() == turno)) {
+	//				promocion = true;
+	//				coordPromocion = { j, i };
+	//				return;
+	//			}
+	//			else continue;
+	//		}
+	//	}
+	//}
 	promocion = false;
 }
 
