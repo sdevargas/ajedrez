@@ -40,6 +40,8 @@ public:
 	void Promocion();
 	void cambiaPromocion(Pieza::Tipo tipo);
 	bool CompMovCompleto(Vector2D origen, Vector2D destino);
+	void Historial(Pieza* p, int x, int y, bool r);
+
 
 	bool getPromocion() {
 		bool result = promocion;

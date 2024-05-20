@@ -2,7 +2,9 @@
 #include <freeglut.h>
 #include"ETSIDI.h"
 #include<iostream>
+#include <fstream>
 using namespace std;
+int cont = 1;
 
 Tablero::Tablero(Tablero::Modo m){
 	contadorClick = 0;
@@ -141,6 +143,11 @@ void Tablero::Mueve(int x, int y)
 			destinoPieza.y = y;
 
 			if (posicionPiezas[origenPieza.x][origenPieza.y]->ValidaMov(origenPieza, destinoPieza, posicionPiezas)) { //Pieza del 1er click llama a SU validar movimiento (polimorfismo)
+				bool r = false;
+				if (posicionPiezas[destinoPieza.x][destinoPieza.y] != nullptr) {
+					r = true;
+				}
+
 				posicionPiezas[destinoPieza.x][destinoPieza.y] = posicionPiezas[origenPieza.x][origenPieza.y]; //Se le asigna la nueva posición a la pieza
 				posicionPiezas[origenPieza.x][origenPieza.y] = nullptr; //Se elimina la pieza del origen
 
@@ -196,7 +203,7 @@ void Tablero::Mueve(int x, int y)
 					if (Mate() == true) {
 						cout << "Jaque Mate" << endl;
 					}
-
+					Historial(posicionPiezas[x][y], x, y, r);
 				
 	
 				}
@@ -388,3 +395,114 @@ bool Tablero::CompMovCompleto(Vector2D origen, Vector2D destino)
 	}else if(posicionPiezas[origen.x][origen.y]->ValidaMov(origen, destino, posicionPiezas))
 		return true;
 }
+
+void Tablero::Historial(Pieza* p, int x, int y, bool r)
+{
+	char pos, tip, k = '\0';
+	switch (x)
+	{
+	case 0:
+		pos = 'a';
+		break;
+	case 1:
+		pos = 'b';
+		break;
+	case 2:
+		pos = 'c';
+		break;
+	case 3:
+		pos = 'd';
+		break;
+	case 4:
+		pos = 'e';
+		break;
+	case 5:
+		pos = 'f';
+		break;
+	case 6:
+		pos = 'g';
+		break;
+	case 7:
+		pos = 'h';
+		break;
+	case 8:
+		pos = 'i';
+		break;
+	case 9:
+		pos = 'j';
+		break;
+	case 10:
+		pos = 'k';
+		break;
+	default:
+		break;
+	}
+	switch (p->getTipo())
+	{
+	case Pieza::Tipo::ALFIL:
+		tip = 'A';
+		break;
+	case Pieza::Tipo::CABALLO:
+		tip = 'C';
+		break;
+	case Pieza::Tipo::PEON:
+		tip = 'P';
+		break;
+	case Pieza::Tipo::REINA:
+		tip = 'D';
+		break;
+	case Pieza::Tipo::REY:
+		tip = 'R';
+		break;
+	case Pieza::Tipo::TORRE:
+		tip = 'T';
+		break;
+	default:
+		break;
+	}
+
+	if (r == true) {
+		k = 'x';
+	}
+
+	if (cont <= 1) { //Nos aseguramos de borrar el contenido cuando empecemos el programa
+		if (p->getColor() == Pieza::Color::BLANCO) {
+		fstream file("historial.txt", ios::in | ios::out | ios::trunc);
+			if (file.is_open()) {
+				file << cont << ".\t" << tip << k << pos << y;
+			}
+			else {
+				std::cerr << "Error al abrir el archivo." << std::endl;
+			}
+		}
+		if (p->getColor() == Pieza::Color::NEGRO) {
+			fstream file("historial.txt", ios::in | ios::out | ios::app);
+			file << "\t" << tip << k << pos << y << endl;
+			cont++;
+		}
+	} else if (cont > 1) {
+		fstream file("historial.txt", ios::in | ios::out | ios::app);
+
+		if (file.is_open()) {
+
+			if (p->getColor() == Pieza::Color::BLANCO) {
+
+				file << cont << ".\t" << tip << k << pos << y;
+
+			}
+			else if (p->getColor() == Pieza::Color::NEGRO) {
+				file << "\t" << tip << k << pos << y << endl;
+				cont++;
+			}
+		}
+		else {
+			std::cerr << "Error al abrir el archivo." << std::endl;
+		}
+	}
+
+}
+
+
+
+
+
