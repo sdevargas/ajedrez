@@ -101,3 +101,116 @@ bool Reina::ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[1
 	
 	}
 }
+
+void Reina::ObtenerMovimientosPosibles(int x, int y, bool movimientos[11][10], Pieza* posicionPiezas[11][10]) {
+    // Reiniciamos la matriz de movimientos
+    for (int i = 0; i < 11; i++) {
+        for (int j = 0; j < 10; j++) {
+            movimientos[i][j] = false;
+        }
+    }
+
+    // Movimientos verticales hacia arriba
+    for (int i = y + 1; i < 10; i++) {
+        if (posicionPiezas[x][i] == nullptr) {
+            movimientos[x][i] = true;
+        }
+        else {
+            if (posicionPiezas[x][i]->getColor() != getColor()) {
+                movimientos[x][i] = true;
+            }
+            break;
+        }
+    }
+
+    // Movimientos verticales hacia abajo
+    for (int i = y - 1; i >= 0; i--) {
+        if (posicionPiezas[x][i] == nullptr) {
+            movimientos[x][i] = true;
+        }
+        else {
+            if (posicionPiezas[x][i]->getColor() != getColor()) {
+                movimientos[x][i] = true;
+            }
+            break;
+        }
+    }
+
+    // Movimientos horizontales hacia la derecha
+    for (int i = x + 1; i < 11; i++) {
+        if (posicionPiezas[i][y] == nullptr) {
+            movimientos[i][y] = true;
+        }
+        else {
+            if (posicionPiezas[i][y]->getColor() != getColor()) {
+                movimientos[i][y] = true;
+            }
+            break;
+        }
+    }
+
+    // Movimientos horizontales hacia la izquierda
+    for (int i = x - 1; i >= 0; i--) {
+        if (posicionPiezas[i][y] == nullptr) {
+            movimientos[i][y] = true;
+        }
+        else {
+            if (posicionPiezas[i][y]->getColor() != getColor()) {
+                movimientos[i][y] = true;
+            }
+            break;
+        }
+    }
+
+    // Movimientos en diagonal hacia arriba-derecha
+    for (int i = 1; x + i < 11 && y + i < 10; i++) {
+        if (posicionPiezas[x + i][y + i] == nullptr) {
+            movimientos[x + i][y + i] = true;
+        }
+        else {
+            if (posicionPiezas[x + i][y + i]->getColor() != getColor()) {
+                movimientos[x + i][y + i] = true;
+            }
+            break;
+        }
+    }
+
+    // Movimientos en diagonal hacia arriba-izquierda
+    for (int i = 1; x - i >= 0 && y + i < 10; i++) {
+        if (posicionPiezas[x - i][y + i] == nullptr) {
+            movimientos[x - i][y + i] = true;
+        }
+        else {
+            if (posicionPiezas[x - i][y + i]->getColor() != getColor()) {
+                movimientos[x - i][y + i] = true;
+            }
+            break;
+        }
+    }
+
+    // Movimientos en diagonal hacia abajo-derecha
+    for (int i = 1; x + i < 11 && y - i >= 0; i++) {
+        if (posicionPiezas[x + i][y - i] == nullptr) {
+            movimientos[x + i][y - i] = true;
+        }
+        else {
+            if (posicionPiezas[x + i][y - i]->getColor() != getColor()) {
+                movimientos[x + i][y - i] = true;
+            }
+            break;
+        }
+    }
+
+    // Movimientos en diagonal hacia abajo-izquierda
+    for (int i = 1; x - i >= 0 && y - i >= 0; i++) {
+        if (posicionPiezas[x - i][y - i] == nullptr) {
+            movimientos[x - i][y - i] = true;
+        }
+        else {
+            if (posicionPiezas[x - i][y - i]->getColor() != getColor()) {
+                movimientos[x - i][y - i] = true;
+            }
+            break;
+        }
+    }
+}

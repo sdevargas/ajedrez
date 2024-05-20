@@ -1,10 +1,10 @@
 #include "Tablero.h"
 #include <freeglut.h>
-#include"ETSIDI.h"
-#include<iostream>
+#include "ETSIDI.h"
+#include <iostream>
 using namespace std;
 
-Tablero::Tablero(Tablero::Modo m){
+Tablero::Tablero(Tablero::Modo m): casillaClicX(-1), casillaClicY(-1), mostrarMovimientos(false) {
 	contadorClick = 0;
 
 	modo = m;
@@ -54,14 +54,15 @@ Tablero::Tablero(Tablero::Modo m){
 	this->turno = BLANCAS;
 }
 
-void Tablero::Dibuja(){
+void Tablero::Dibuja() {
 	//DIBUJO DE LAS CASILLAS
 	for (int columna = 0; columna < limite_columnas; columna++) {
 		for (int fila = 0; fila < limite_filas; fila++) {
-			if (fila + columna > 15 || fila + columna < 4 ||	
+			if (fila + columna > 15 || fila + columna < 4 ||
 				columna - fila < -5 || columna - fila > 6) { //Restricción de casillas
 				continue;
-			}else{
+			}
+			else {
 				glDisable(GL_LIGHTING);
 				if ((fila + columna) % 2 == 0) {
 					glColor3ub(/*30, 132, 73*//*70, 41, 5*/79, 69, 60); //OSCURO
@@ -69,12 +70,12 @@ void Tablero::Dibuja(){
 				else glColor3ub(/*169, 223, 191*//*245, 203, 138*/162, 157, 135); //CLARO
 				glBegin(GL_POLYGON);
 				glVertex3d(columna, fila, 0);
-				glVertex3d(columna +1, fila, 0);
+				glVertex3d(columna + 1, fila, 0);
 				glVertex3d(columna + 1, fila + 1, 0);
-				glVertex3d(columna, fila +1, 0);
+				glVertex3d(columna, fila + 1, 0);
 				glEnd();
 				glEnable(GL_LIGHTING);
-			
+
 			}
 		}
 	}
@@ -84,7 +85,7 @@ void Tablero::Dibuja(){
 		for (int fila = 0; fila < limite_filas; fila++) {
 			if (posicionPiezas[columna][fila] != nullptr) {
 				glPushMatrix();
-				glTranslatef(columna +0.5, fila+0.5, 0); //Desplazas el eje de cordenadas
+				glTranslatef(columna + 0.5, fila + 0.5, 0); //Desplazas el eje de cordenadas
 				posicionPiezas[columna][fila]->Dibuja(); //Llamada al método Dibuja de la pieza que corresponde
 				glTranslatef(-columna - 0.5, -fila - 0.5, 0);
 				glPopMatrix();
@@ -92,7 +93,30 @@ void Tablero::Dibuja(){
 		}
 	}
 
+	//Dibujar los movimientos válidos si se ha seleccionado una pieza
+	if (mostrarMovimientos && casillaClicX != -1 && casillaClicY != -1) {
+		bool movimientos[limite_columnas][limite_filas] = { false };
+		Pieza* piezaSeleccionada = posicionPiezas[casillaClicX][casillaClicY];
+		if (piezaSeleccionada != nullptr) {
+			piezaSeleccionada->ObtenerMovimientosValidos(casillaClicX, casillaClicY, movimientos, posicionPiezas);
+			glColor4f(0.0, 1.0, 0.0, 0.5); // Verde semitransparente
+			for (int i = 0; i < limite_columnas; ++i) {
+				for (int j = 0; j < limite_filas; ++j) {
+					if (movimientos[i][j]) {
+						glBegin(GL_POLYGON);
+						glVertex2f(i, j);
+						glVertex2f(i + 1, j);
+						glVertex2f(i + 1, j + 1);
+						glVertex2f(i, j + 1);
+						glEnd();
+					}
+				}
+			}
+		}
+	}
 }
+
+
 
 void Tablero::Mueve(int x, int y)
 {
@@ -102,17 +126,23 @@ void Tablero::Mueve(int x, int y)
 	else contadorClick++;
 
 	if (contadorClick == 1) {
-
+		
 		if (posicionPiezas[x][y] != nullptr) {
+			int casillaX = x;
+			int casillaY = y;
 
 			if (posicionPiezas[x][y]->getColor() == turno) { //Si el color de la posición es igual al turno
 				cout << "1er click valido" << endl;
 				origenPieza.x = x;
 				origenPieza.y = y;
+				mostrarMovimientos = true;
 				return; //Salimos de la función esperando el siguiente click
 			}
 			else { 
-				contadorClick = 0; 
+				contadorClick = 0;
+				casillaClicX = -1;
+				casillaClicY = -1;
+				mostrarMovimientos = false;
 				ETSIDI::playMusica("bin/sonidos/error.mp3");
 				cout << "1er click NO valido por color" << endl; 
 			}//Reiniciamos el turno 
@@ -135,6 +165,7 @@ void Tablero::Mueve(int x, int y)
 		if (posicionPiezas[x][y]!=nullptr && posicionPiezas[x][y]->getColor() == turno) { 
 			ETSIDI::playMusica("bin/sonidos/error.mp3");
 			contadorClick = 0; cout << "2o click NO valido por pieza de turno" << endl;
+			mostrarMovimientos = false; // Agregamos esto para asegurarnos de que los movimientos no se muestren si se hace clic en una pieza del mismo color
 		}
 		else {
 			destinoPieza.x = x;
@@ -207,6 +238,10 @@ void Tablero::Mueve(int x, int y)
 				cout << "2o click NO valido por movimiento de la propia pieza" << endl;
 			}//Reiniciamos el turno
 		}
+	}
+	// Si no se hace clic en una pieza, no se deben mostrar los movimientos
+	if (contadorClick != 1) {
+		mostrarMovimientos = false;
 	}
 	
 }
@@ -388,3 +423,22 @@ bool Tablero::CompMovCompleto(Vector2D origen, Vector2D destino)
 	}else if(posicionPiezas[origen.x][origen.y]->ValidaMov(origen, destino, posicionPiezas))
 		return true;
 }
+//void Tablero::CalcularMovimientosPosibles(int x, int y) {
+//	if (contadorClick == 1) {
+//
+//		if (posicionPiezas[x][y] != nullptr) {
+//
+//			bool movimientos[limite_columnas][limite_filas];
+//			for (int i = 0; i < limite_columnas; i++) {
+//				for (int j = 0; j < limite_filas; j++) {
+//					movimientos[i][j] = false;
+//				}
+//			}
+//			posicionPiezas[x][y]->ObtenerMovimientosValidos(x, y, movimientos);
+//			for (int i = 0; i < limite_columnas; i++) {
+//				for (int j = 0; j < limite_filas; j++) {
+//					if (movimientos[i][j]) {
+//		}
+//	}
+//
+//}

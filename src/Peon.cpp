@@ -1,6 +1,9 @@
 #include "Peon.h"
 #include "freeglut.h"
 #include "ETSIDI.h"
+#include "Tablero.h"
+#include "Pieza.h"
+
 
 void Peon::Dibuja(){
 	
@@ -108,6 +111,54 @@ bool Peon::ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[11
 			}
 			else //Mover en horizontal
 				return false;
+		}
+	}
+}
+
+void Peon::ObtenerMovimientosValidos(int x, int y, bool movimientos[limite_columnas][limite_filas], Pieza* posicionPiezas[limite_columnas][limite_filas]) {
+	// Reiniciamos la matriz de movimientos
+	for (int i = 0; i < 11; i++) {
+		for (int j = 0; j < 10; j++) {
+			movimientos[i][j] = false;
+		}
+	}
+
+	// Movimientos posibles del peón blanco
+	if (getColor() == BLANCO) {
+		// Avance normal
+		if (y < 9 && posicionPiezas[x][y + 1] == nullptr) {
+			movimientos[x][y + 1] = true;
+			// Primer movimiento de dos casillas
+			if (y == 2 && posicionPiezas[x][y + 2] == nullptr) {
+				movimientos[x][y + 2] = true;
+			}
+		}
+		// Captura hacia la derecha
+		if (x < 10 && y < 9 && posicionPiezas[x + 1][y + 1] != nullptr && posicionPiezas[x + 1][y + 1]->getColor() == NEGRO) {
+			movimientos[x + 1][y + 1] = true;
+		}
+		// Captura hacia la izquierda
+		if (x > 0 && y < 9 && posicionPiezas[x - 1][y + 1] != nullptr && posicionPiezas[x - 1][y + 1]->getColor() == NEGRO) {
+			movimientos[x - 1][y + 1] = true;
+		}
+	}
+	// Movimientos posibles del peón negro
+	else if (getColor() == NEGRO) {
+		// Avance normal
+		if (y > 0 && posicionPiezas[x][y - 1] == nullptr) {
+			movimientos[x][y - 1] = true;
+			// Primer movimiento de dos casillas
+			if (y == 7 && posicionPiezas[x][y - 2] == nullptr) {
+				movimientos[x][y - 2] = true;
+			}
+		}
+		// Captura hacia la derecha
+		if (x < 10 && y > 0 && posicionPiezas[x + 1][y - 1] != nullptr && posicionPiezas[x + 1][y - 1]->getColor() == BLANCO) {
+			movimientos[x + 1][y - 1] = true;
+		}
+		// Captura hacia la izquierda
+		if (x > 0 && y > 0 && posicionPiezas[x - 1][y - 1] != nullptr && posicionPiezas[x - 1][y - 1]->getColor() == BLANCO) {
+			movimientos[x - 1][y - 1] = true;
 		}
 	}
 }

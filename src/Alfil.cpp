@@ -71,3 +71,64 @@ bool Alfil::ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[1
 			return false;
 	}
 }
+void Alfil::ObtenerMovimientosValidos(int x, int y, bool movimientos[11][10], Pieza* posicionPiezas[11][10]) {
+	// Reiniciamos la matriz de movimientos
+	for (int i = 0; i < 11; i++) {
+		for (int j = 0; j < 10; j++) {
+			movimientos[i][j] = false;
+		}
+	}
+// Movimientos posibles del alfil
+	
+	// Diagonal superior derecha
+	for (int i = 1; x + i < 11 && y + i < 10; i++) {
+		if (posicionPiezas[x + i][y + i] == nullptr) {
+			movimientos[x + i][y + i] = true;
+		}
+		else {
+			if (posicionPiezas[x + i][y + i]->getColor() != getColor()) {
+				movimientos[x + i][y + i] = true;
+			}
+			break;
+		}
+	}
+
+	// Diagonal superior izquierda
+	for (int i = 1; x - i >= 0 && y + i < 10; i++) {
+		if (posicionPiezas[x - i][y + i] == nullptr) {
+			movimientos[x - i][y + i] = true;
+		}
+		else {
+			if (posicionPiezas[x - i][y + i]->getColor() != getColor()) {
+				movimientos[x - i][y + i] = true;
+			}
+			break;
+		}
+	}
+
+	// Diagonal inferior derecha
+	for (int i = 1; x + i < 11 && y - i >= 0; i++) {
+		if (posicionPiezas[x + i][y - i] == nullptr) {
+			movimientos[x + i][y - i] = true;
+		}
+		else {
+			if (posicionPiezas[x + i][y - i]->getColor() != getColor()) {
+				movimientos[x + i][y - i] = true;
+			}
+			break;
+		}
+	}
+
+	// Diagonal inferior izquierda
+	for (int i = 1; x - i >= 0 && y - i >= 0; i++) {
+		if (posicionPiezas[x - i][y - i] == nullptr) {
+			movimientos[x - i][y - i] = true;
+		}
+		else {
+			if (posicionPiezas[x - i][y - i]->getColor() != getColor()) {
+				movimientos[x - i][y - i] = true;
+			}
+			break;
+		}
+	}
+}

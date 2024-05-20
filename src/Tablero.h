@@ -26,10 +26,12 @@ private:
 	Modo modo;
 	bool mate_b;
 	bool mate_n;
+	int casillaClicX, casillaClicY;
+	bool mostrarMovimientos;
 
 public:
 	Pieza* posicionPiezas[limite_columnas][limite_filas]; //Se crea una matriz para albergar la posición de las piezas en el tablero
-														/*Se necesita una matriz de piezas para registrar dónde se encuentran las piezas en el tablero
+													/*Se necesita una matriz de piezas para registrar dónde se encuentran las piezas en el tablero
 														Con esa matriz verificas que puedes acceder a la casilla de destino */
 	Tablero(Modo m);
 
@@ -40,7 +42,7 @@ public:
 	void Promocion();
 	void cambiaPromocion(Pieza::Tipo tipo);
 	bool CompMovCompleto(Vector2D origen, Vector2D destino);
-
+	/*void CalcularMovimientosPosibles(int x, int y);*/
 	bool getPromocion() {
 		bool result = promocion;
 		promocion = false;

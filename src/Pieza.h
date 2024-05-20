@@ -1,5 +1,7 @@
 #pragma once
 #include "Vector2D.h"
+#include "Tablero.h"
+
 
 class Pieza {
 public:
@@ -23,7 +25,7 @@ public:
 	que las funciones sean virtuales es lo que les permite hacer esto que es el poliformismo*/
 	virtual void Dibuja()=0; 
 	virtual bool ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[11][10]) = 0;
-
+	virtual void ObtenerMovimientosValidos(int x, int y, bool movimientos[11][10], Pieza* posicionPiezas[11][10]) = 0;
 	Color getColor() {
 		return color;
 	}
