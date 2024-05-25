@@ -1,5 +1,10 @@
 #pragma once
 #include"Pieza.h"
+#include "freeglut.h"
+#include "ETSIDI.h"
+#include "Tablero.h"
+#include "Pieza.h"
+#include "Mundo.h"
 
 class Torre :public Pieza {
 

@@ -71,7 +71,7 @@ bool Alfil::ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[1
 			return false;
 	}
 }
-void Alfil::ObtenerMovimientosValidos(int x, int y, bool movimientos[11][10], Pieza* posicionPiezas[11][10]) {
+void Alfil::ObtenerMovimientosPosibles(int x, int y, bool movimientos[11][10], Pieza* posicionPiezas[11][10]) {
 	// Reiniciamos la matriz de movimientos
 	for (int i = 0; i < 11; i++) {
 		for (int j = 0; j < 10; j++) {

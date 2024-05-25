@@ -115,7 +115,7 @@ bool Peon::ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[11
 	}
 }
 
-void Peon::ObtenerMovimientosValidos(int x, int y, bool movimientos[limite_columnas][limite_filas], Pieza* posicionPiezas[limite_columnas][limite_filas]) {
+void Peon::ObtenerMovimientosPosibles(int x, int y, bool movimientos[11][10], Pieza* posicionPiezas[11][10]) {
 	// Reiniciamos la matriz de movimientos
 	for (int i = 0; i < 11; i++) {
 		for (int j = 0; j < 10; j++) {

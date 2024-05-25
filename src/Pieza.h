@@ -1,6 +1,11 @@
 #pragma once
 #include "Vector2D.h"
 #include "Tablero.h"
+#include "freeglut.h"
+#include "ETSIDI.h"
+#include "Tablero.h"
+#include "Pieza.h"
+#include "Mundo.h"
 
 
 class Pieza {
@@ -20,12 +25,13 @@ public:
 		this-> tipo = tipo;
 		this->modoJuego = m;
 	}
+	virtual ~Pieza() {}
 	
 	/*Estos métodos son virtuales porque cada pieza haga lo que le toca de una manera concreta,
 	que las funciones sean virtuales es lo que les permite hacer esto que es el poliformismo*/
 	virtual void Dibuja()=0; 
 	virtual bool ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[11][10]) = 0;
-	virtual void ObtenerMovimientosValidos(int x, int y, bool movimientos[11][10], Pieza* posicionPiezas[11][10]) = 0;
+	virtual void ObtenerMovimientosPosibles(int x, int y, bool movimientos[11][10], Pieza* posicionPiezas[11][10])=0;
 	Color getColor() {
 		return color;
 	}

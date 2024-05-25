@@ -98,7 +98,7 @@ void Tablero::Dibuja() {
 		bool movimientos[limite_columnas][limite_filas] = { false };
 		Pieza* piezaSeleccionada = posicionPiezas[casillaClicX][casillaClicY];
 		if (piezaSeleccionada != nullptr) {
-			piezaSeleccionada->ObtenerMovimientosValidos(casillaClicX, casillaClicY, movimientos, posicionPiezas);
+			piezaSeleccionada->ObtenerMovimientosPosibles(casillaClicX, casillaClicY, movimientos, posicionPiezas);
 			glColor4f(0.0, 1.0, 0.0, 0.5); // Verde semitransparente
 			for (int i = 0; i < limite_columnas; ++i) {
 				for (int j = 0; j < limite_filas; ++j) {
@@ -423,22 +423,6 @@ bool Tablero::CompMovCompleto(Vector2D origen, Vector2D destino)
 	}else if(posicionPiezas[origen.x][origen.y]->ValidaMov(origen, destino, posicionPiezas))
 		return true;
 }
-//void Tablero::CalcularMovimientosPosibles(int x, int y) {
-//	if (contadorClick == 1) {
-//
-//		if (posicionPiezas[x][y] != nullptr) {
-//
-//			bool movimientos[limite_columnas][limite_filas];
-//			for (int i = 0; i < limite_columnas; i++) {
-//				for (int j = 0; j < limite_filas; j++) {
-//					movimientos[i][j] = false;
-//				}
-//			}
-//			posicionPiezas[x][y]->ObtenerMovimientosValidos(x, y, movimientos);
-//			for (int i = 0; i < limite_columnas; i++) {
-//				for (int j = 0; j < limite_filas; j++) {
-//					if (movimientos[i][j]) {
-//		}
-//	}
-//
-//}
+
+
+

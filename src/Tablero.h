@@ -15,6 +15,7 @@ class Tablero {
 public:
 	typedef enum { BLANCAS = 0, NEGRAS } Turno;
 	typedef enum {NORMAL = 0, SW}Modo;
+	
 
 private:
 	Turno turno;
@@ -42,7 +43,6 @@ public:
 	void Promocion();
 	void cambiaPromocion(Pieza::Tipo tipo);
 	bool CompMovCompleto(Vector2D origen, Vector2D destino);
-	/*void CalcularMovimientosPosibles(int x, int y);*/
 	bool getPromocion() {
 		bool result = promocion;
 		promocion = false;

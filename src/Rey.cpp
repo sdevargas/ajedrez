@@ -1,6 +1,6 @@
 #include "Rey.h"
-#include"freeglut.h"
-#include"ETSIDI.h"
+#include "freeglut.h"
+#include "ETSIDI.h"
 #include "Tablero.h"
 #include "Pieza.h"
 
