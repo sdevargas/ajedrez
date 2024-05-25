@@ -159,7 +159,7 @@ void Mundo::Dibuja()
 			glDisable(GL_TEXTURE_2D);
 			//glTranslatef(-5.6, +2, 0); //Revertimos el desplazamiento del eje
 			
-			ETSIDI::setTextColor(155, 0, 0);
+			ETSIDI::setTextColor(0.752f, 0.223f, 0.168f);
 			/*ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 50);
 			ETSIDI::printxy("Pulse: ", -16, 30);*/
 
@@ -191,7 +191,7 @@ void Mundo::Dibuja()
 			glDisable(GL_TEXTURE_2D);
 			//glTranslatef(-5.6, +2, 0); //Revertimos el desplazamiento del eje
 
-			ETSIDI::setTextColor(155, 0, 0);
+			ETSIDI::setTextColor(0.752f, 0.223f, 0.168f);
 			//ETSIDI::setFont("bin/fuentes/Starjedi.ttf", 50);
 			//ETSIDI::printxy("Pulse: ", -6, 5);
 

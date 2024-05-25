@@ -80,6 +80,69 @@ void Tablero::Dibuja(){
 			}
 		}
 	}
+	//Copia de tablero
+	Pieza* posicionPiezas_aux[limite_columnas][limite_filas];
+	for (int i = 0; i < limite_columnas; i++) {
+		for (int j = 0; j < limite_filas; j++) {
+			posicionPiezas_aux[i][j] = posicionPiezas[i][j]; 
+		}
+	}
+	//DIBUJO CASILLAS POSIBLES MOVIMIENTOS
+	Vector2D  destino;
+	if (contadorClick == 1) {
+		for (int k = 0; k < limite_columnas; k++) {
+			for (int l = 0; l < limite_filas; l++) {
+				destino = { k,l };
+				if (CompMovCompleto(origenPieza, destino)) {
+					posicionPiezas[destino.x][destino.y] = posicionPiezas[origenPieza.x][origenPieza.y]; //Se le asigna la nueva posición a la pieza
+					posicionPiezas[origenPieza.x][origenPieza.y] = nullptr; //Se elimina la pieza del origen
+					if (!Jaque(posicionPiezas)) {
+						for (int i = 0; i < limite_columnas; i++) {
+							for (int j = 0; j < limite_filas; j++) {
+								posicionPiezas[i][j] = posicionPiezas_aux[i][j]; //Devolvemos el tablero a su posición original deshaciendo el movimiento
+							}
+						}
+
+						//Dibujo de la casilla
+						glDisable(GL_LIGHTING);
+						if (posicionPiezas[destino.x][destino.y] != nullptr) {
+							glColor3f(0.925f, 0.439f, 0.388f);
+							glBegin(GL_POLYGON);
+							glVertex3d(destino.x, destino.y, 0.001);
+							glColor3f(0.752f, 0.223f, 0.168f);
+							glVertex3d(destino.x + 1, destino.y, 0.001);
+							glColor3f(0.925f, 0.439f, 0.388f);
+							glVertex3d(destino.x + 1, destino.y + 1, 0.001);
+							glColor3f(0.752f, 0.223f, 0.168f);
+							glVertex3d(destino.x, destino.y + 1, 0.001);
+							glEnd();
+							glEnable(GL_LIGHTING);
+						}
+						else {
+							glColor3f(0.282f, 0.788f, 0.69f);
+							glBegin(GL_POLYGON);
+							glVertex3d(destino.x, destino.y, 0.001);
+							glColor3f(0.074f, 0.552f, 0.458f);
+							glVertex3d(destino.x + 1, destino.y, 0.001);
+							glColor3f(0.282f, 0.788f, 0.69f);
+							glVertex3d(destino.x + 1, destino.y + 1, 0.001);
+							glColor3f(0.074f, 0.552f, 0.458f);
+							glVertex3d(destino.x, destino.y + 1, 0.001);
+							glEnd();
+							glEnable(GL_LIGHTING);
+						}
+					}
+					else{
+						for (int i = 0; i < limite_columnas; i++) {
+							for (int j = 0; j < limite_filas; j++) {
+								posicionPiezas[i][j] = posicionPiezas_aux[i][j]; //Se mantienen las posiciones originales
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 
 	//DIBUJO DE LAS PIEZAS
 	for (int columna = 0; columna < limite_columnas; columna++) {
@@ -268,10 +331,7 @@ bool Tablero::Jaque(Pieza* posicionPiezas_aux[limite_columnas][limite_filas])
 			}
 		}
 	}
-
-	return respuesta;
-
-	
+	return respuesta;	
 }
 
 bool Tablero::Mate() {

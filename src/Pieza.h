@@ -24,13 +24,9 @@ public:
 	virtual void Dibuja()=0; 
 	virtual bool ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[11][10]) = 0;
 
-	Color getColor() {
-		return color;
-	}
+	virtual Color getColor() = 0;
 
-	Tipo getTipo() {
-		return tipo;
-	}
+	virtual Tipo getTipo()=0;
 
 	bool alPasoPresa = 0; //Facultad de pieza que es susceptible a captura al peon
 	bool alPasoDone = 0; //Flag de pieza que ha capturado al peon exitosamente

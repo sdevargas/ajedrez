@@ -48,7 +48,8 @@ bool Peon::ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[11
 			if (abs(res.x) == 1 && res.y == 1) { //Mover en diagonal para delante
 				if (posicionPiezas[destino.x][destino.y] != nullptr) //Si puede comer pieza
 					return true;
-				else if (posicionPiezas[destino.x][destino.y - 1] != nullptr && posicionPiezas[destino.x][destino.y - 1]->alPasoPresa) { //Si puede hacer captura
+				else if (posicionPiezas[destino.x][destino.y - 1] != nullptr && posicionPiezas[destino.x][destino.y - 1]->getColor() == NEGRO
+						 && posicionPiezas[destino.x][destino.y - 1]->alPasoPresa) { //Si puede hacer captura
 					alPasoDone = true;
 					return true;
 				}
@@ -81,7 +82,8 @@ bool Peon::ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[11
 			if (abs(res.x) == 1 && res.y == -1) { //Mover en diagonal para delante
 				if (posicionPiezas[destino.x][destino.y] != nullptr) //Si puede comer pieza
 					return true;
-				else if (posicionPiezas[destino.x][destino.y + 1] != nullptr && posicionPiezas[destino.x][destino.y + 1]->alPasoPresa) { //Si puede hacer captura
+				else if (posicionPiezas[destino.x][destino.y + 1] != nullptr && posicionPiezas[destino.x][destino.y + 1]->getColor() == BLANCO 
+						 && posicionPiezas[destino.x][destino.y + 1]->alPasoPresa) { //Si puede hacer captura
 					alPasoDone = true;
 					return true;
 				}
