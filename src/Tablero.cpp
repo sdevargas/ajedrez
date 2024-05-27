@@ -1,10 +1,12 @@
 #include "Tablero.h"
 #include <freeglut.h>
-#include "ETSIDI.h"
-#include <iostream>
+#include"ETSIDI.h"
+#include<iostream>
+#include <fstream>
 using namespace std;
+int cont = 1;
 
-Tablero::Tablero(Tablero::Modo m): casillaClicX(-1), casillaClicY(-1), mostrarMovimientos(false) {
+Tablero::Tablero(Tablero::Modo m){
 	contadorClick = 0;
 
 	modo = m;
@@ -54,15 +56,14 @@ Tablero::Tablero(Tablero::Modo m): casillaClicX(-1), casillaClicY(-1), mostrarMo
 	this->turno = BLANCAS;
 }
 
-void Tablero::Dibuja() {
+void Tablero::Dibuja(){
 	//DIBUJO DE LAS CASILLAS
 	for (int columna = 0; columna < limite_columnas; columna++) {
 		for (int fila = 0; fila < limite_filas; fila++) {
-			if (fila + columna > 15 || fila + columna < 4 ||
+			if (fila + columna > 15 || fila + columna < 4 ||	
 				columna - fila < -5 || columna - fila > 6) { //Restricción de casillas
 				continue;
-			}
-			else {
+			}else{
 				glDisable(GL_LIGHTING);
 				if ((fila + columna) % 2 == 0) {
 					glColor3ub(/*30, 132, 73*//*70, 41, 5*/79, 69, 60); //OSCURO
@@ -70,12 +71,75 @@ void Tablero::Dibuja() {
 				else glColor3ub(/*169, 223, 191*//*245, 203, 138*/162, 157, 135); //CLARO
 				glBegin(GL_POLYGON);
 				glVertex3d(columna, fila, 0);
-				glVertex3d(columna + 1, fila, 0);
+				glVertex3d(columna +1, fila, 0);
 				glVertex3d(columna + 1, fila + 1, 0);
-				glVertex3d(columna, fila + 1, 0);
+				glVertex3d(columna, fila +1, 0);
 				glEnd();
 				glEnable(GL_LIGHTING);
+			
+			}
+		}
+	}
+	//Copia de tablero
+	Pieza* posicionPiezas_aux[limite_columnas][limite_filas];
+	for (int i = 0; i < limite_columnas; i++) {
+		for (int j = 0; j < limite_filas; j++) {
+			posicionPiezas_aux[i][j] = posicionPiezas[i][j]; 
+		}
+	}
+	//DIBUJO CASILLAS POSIBLES MOVIMIENTOS
+	Vector2D  destino;
+	if (contadorClick == 1) {
+		for (int k = 0; k < limite_columnas; k++) {
+			for (int l = 0; l < limite_filas; l++) {
+				destino = { k,l };
+				if (CompMovCompleto(origenPieza, destino)) {
+					posicionPiezas[destino.x][destino.y] = posicionPiezas[origenPieza.x][origenPieza.y]; //Se le asigna la nueva posición a la pieza
+					posicionPiezas[origenPieza.x][origenPieza.y] = nullptr; //Se elimina la pieza del origen
+					if (!Jaque(posicionPiezas)) {
+						for (int i = 0; i < limite_columnas; i++) {
+							for (int j = 0; j < limite_filas; j++) {
+								posicionPiezas[i][j] = posicionPiezas_aux[i][j]; //Devolvemos el tablero a su posición original deshaciendo el movimiento
+							}
+						}
 
+						//Dibujo de la casilla
+						glDisable(GL_LIGHTING);
+						if (posicionPiezas[destino.x][destino.y] != nullptr) {
+							glColor3f(0.925f, 0.439f, 0.388f);
+							glBegin(GL_POLYGON);
+							glVertex3d(destino.x, destino.y, 0.001);
+							glColor3f(0.752f, 0.223f, 0.168f);
+							glVertex3d(destino.x + 1, destino.y, 0.001);
+							glColor3f(0.925f, 0.439f, 0.388f);
+							glVertex3d(destino.x + 1, destino.y + 1, 0.001);
+							glColor3f(0.752f, 0.223f, 0.168f);
+							glVertex3d(destino.x, destino.y + 1, 0.001);
+							glEnd();
+							glEnable(GL_LIGHTING);
+						}
+						else {
+							glColor3f(0.282f, 0.788f, 0.69f);
+							glBegin(GL_POLYGON);
+							glVertex3d(destino.x, destino.y, 0.001);
+							glColor3f(0.074f, 0.552f, 0.458f);
+							glVertex3d(destino.x + 1, destino.y, 0.001);
+							glColor3f(0.282f, 0.788f, 0.69f);
+							glVertex3d(destino.x + 1, destino.y + 1, 0.001);
+							glColor3f(0.074f, 0.552f, 0.458f);
+							glVertex3d(destino.x, destino.y + 1, 0.001);
+							glEnd();
+							glEnable(GL_LIGHTING);
+						}
+					}
+					else{
+						for (int i = 0; i < limite_columnas; i++) {
+							for (int j = 0; j < limite_filas; j++) {
+								posicionPiezas[i][j] = posicionPiezas_aux[i][j]; //Se mantienen las posiciones originales
+							}
+						}
+					}
+				}
 			}
 		}
 	}
@@ -85,7 +149,7 @@ void Tablero::Dibuja() {
 		for (int fila = 0; fila < limite_filas; fila++) {
 			if (posicionPiezas[columna][fila] != nullptr) {
 				glPushMatrix();
-				glTranslatef(columna + 0.5, fila + 0.5, 0); //Desplazas el eje de cordenadas
+				glTranslatef(columna +0.5, fila+0.5, 0); //Desplazas el eje de cordenadas
 				posicionPiezas[columna][fila]->Dibuja(); //Llamada al método Dibuja de la pieza que corresponde
 				glTranslatef(-columna - 0.5, -fila - 0.5, 0);
 				glPopMatrix();
@@ -93,30 +157,7 @@ void Tablero::Dibuja() {
 		}
 	}
 
-	//Dibujar los movimientos válidos si se ha seleccionado una pieza
-	if (mostrarMovimientos && casillaClicX != -1 && casillaClicY != -1) {
-		bool movimientos[limite_columnas][limite_filas] = { false };
-		Pieza* piezaSeleccionada = posicionPiezas[casillaClicX][casillaClicY];
-		if (piezaSeleccionada != nullptr) {
-			piezaSeleccionada->ObtenerMovimientosPosibles(casillaClicX, casillaClicY, movimientos, posicionPiezas);
-			glColor4f(0.0, 1.0, 0.0, 0.5); // Verde semitransparente
-			for (int i = 0; i < limite_columnas; ++i) {
-				for (int j = 0; j < limite_filas; ++j) {
-					if (movimientos[i][j]) {
-						glBegin(GL_POLYGON);
-						glVertex2f(i, j);
-						glVertex2f(i + 1, j);
-						glVertex2f(i + 1, j + 1);
-						glVertex2f(i, j + 1);
-						glEnd();
-					}
-				}
-			}
-		}
-	}
 }
-
-
 
 void Tablero::Mueve(int x, int y)
 {
@@ -126,23 +167,17 @@ void Tablero::Mueve(int x, int y)
 	else contadorClick++;
 
 	if (contadorClick == 1) {
-		
+
 		if (posicionPiezas[x][y] != nullptr) {
-			int casillaX = x;
-			int casillaY = y;
 
 			if (posicionPiezas[x][y]->getColor() == turno) { //Si el color de la posición es igual al turno
 				cout << "1er click valido" << endl;
 				origenPieza.x = x;
 				origenPieza.y = y;
-				mostrarMovimientos = true;
 				return; //Salimos de la función esperando el siguiente click
 			}
 			else { 
-				contadorClick = 0;
-				casillaClicX = -1;
-				casillaClicY = -1;
-				mostrarMovimientos = false;
+				contadorClick = 0; 
 				ETSIDI::playMusica("bin/sonidos/error.mp3");
 				cout << "1er click NO valido por color" << endl; 
 			}//Reiniciamos el turno 
@@ -165,13 +200,17 @@ void Tablero::Mueve(int x, int y)
 		if (posicionPiezas[x][y]!=nullptr && posicionPiezas[x][y]->getColor() == turno) { 
 			ETSIDI::playMusica("bin/sonidos/error.mp3");
 			contadorClick = 0; cout << "2o click NO valido por pieza de turno" << endl;
-			mostrarMovimientos = false; // Agregamos esto para asegurarnos de que los movimientos no se muestren si se hace clic en una pieza del mismo color
 		}
 		else {
 			destinoPieza.x = x;
 			destinoPieza.y = y;
 
 			if (posicionPiezas[origenPieza.x][origenPieza.y]->ValidaMov(origenPieza, destinoPieza, posicionPiezas)) { //Pieza del 1er click llama a SU validar movimiento (polimorfismo)
+				bool r = false;
+				if (posicionPiezas[destinoPieza.x][destinoPieza.y] != nullptr) {
+					r = true;
+				}
+
 				posicionPiezas[destinoPieza.x][destinoPieza.y] = posicionPiezas[origenPieza.x][origenPieza.y]; //Se le asigna la nueva posición a la pieza
 				posicionPiezas[origenPieza.x][origenPieza.y] = nullptr; //Se elimina la pieza del origen
 
@@ -227,7 +266,7 @@ void Tablero::Mueve(int x, int y)
 					if (Mate() == true) {
 						cout << "Jaque Mate" << endl;
 					}
-
+					Historial(posicionPiezas[x][y], x, y, r);
 				
 	
 				}
@@ -238,10 +277,6 @@ void Tablero::Mueve(int x, int y)
 				cout << "2o click NO valido por movimiento de la propia pieza" << endl;
 			}//Reiniciamos el turno
 		}
-	}
-	// Si no se hace clic en una pieza, no se deben mostrar los movimientos
-	if (contadorClick != 1) {
-		mostrarMovimientos = false;
 	}
 	
 }
@@ -296,10 +331,7 @@ bool Tablero::Jaque(Pieza* posicionPiezas_aux[limite_columnas][limite_filas])
 			}
 		}
 	}
-
-	return respuesta;
-
-	
+	return respuesta;	
 }
 
 bool Tablero::Mate() {
@@ -423,6 +455,114 @@ bool Tablero::CompMovCompleto(Vector2D origen, Vector2D destino)
 	}else if(posicionPiezas[origen.x][origen.y]->ValidaMov(origen, destino, posicionPiezas))
 		return true;
 }
+
+void Tablero::Historial(Pieza* p, int x, int y, bool r)
+{
+	char pos, tip, k = '\0';
+	switch (x)
+	{
+	case 0:
+		pos = 'a';
+		break;
+	case 1:
+		pos = 'b';
+		break;
+	case 2:
+		pos = 'c';
+		break;
+	case 3:
+		pos = 'd';
+		break;
+	case 4:
+		pos = 'e';
+		break;
+	case 5:
+		pos = 'f';
+		break;
+	case 6:
+		pos = 'g';
+		break;
+	case 7:
+		pos = 'h';
+		break;
+	case 8:
+		pos = 'i';
+		break;
+	case 9:
+		pos = 'j';
+		break;
+	case 10:
+		pos = 'k';
+		break;
+	default:
+		break;
+	}
+	switch (p->getTipo())
+	{
+	case Pieza::Tipo::ALFIL:
+		tip = 'A';
+		break;
+	case Pieza::Tipo::CABALLO:
+		tip = 'C';
+		break;
+	case Pieza::Tipo::PEON:
+		tip = 'P';
+		break;
+	case Pieza::Tipo::REINA:
+		tip = 'D';
+		break;
+	case Pieza::Tipo::REY:
+		tip = 'R';
+		break;
+	case Pieza::Tipo::TORRE:
+		tip = 'T';
+		break;
+	default:
+		break;
+	}
+
+	if (r == true) {
+		k = 'x';
+	}
+
+	if (cont <= 1) { //Nos aseguramos de borrar el contenido cuando empecemos el programa
+		if (p->getColor() == Pieza::Color::BLANCO) {
+		fstream file("historial.txt", ios::in | ios::out | ios::trunc);
+			if (file.is_open()) {
+				file << cont << ".\t" << tip << k << pos << y;
+			}
+			else {
+				std::cerr << "Error al abrir el archivo." << std::endl;
+			}
+		}
+		if (p->getColor() == Pieza::Color::NEGRO) {
+			fstream file("historial.txt", ios::in | ios::out | ios::app);
+			file << "\t" << tip << k << pos << y << endl;
+			cont++;
+		}
+	} else if (cont > 1) {
+		fstream file("historial.txt", ios::in | ios::out | ios::app);
+
+		if (file.is_open()) {
+
+			if (p->getColor() == Pieza::Color::BLANCO) {
+
+				file << cont << ".\t" << tip << k << pos << y;
+
+			}
+			else if (p->getColor() == Pieza::Color::NEGRO) {
+				file << "\t" << tip << k << pos << y << endl;
+				cont++;
+			}
+		}
+		else {
+			std::cerr << "Error al abrir el archivo." << std::endl;
+		}
+	}
+
+}
+
+
 
 
 
