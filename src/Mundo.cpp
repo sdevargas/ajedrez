@@ -12,6 +12,7 @@ Mundo::Mundo()
 void Mundo::Dibuja()
 {
 	if (estado == INICIO) {
+		
 		//Sprite Menú principal
 		gluLookAt(0, 7.5, 30, // posicion del ojo
 			0.0, 7.5, 0.0, // hacia que punto mira (0,7.5,0)
@@ -44,14 +45,17 @@ void Mundo::Dibuja()
 		glDisable(GL_LIGHTING);
 		glBegin(GL_POLYGON);
 		glColor3f(1, 1, 1);
-		glTexCoord2d(0, 1); glVertex3f(-10, 0, -0.01f);
+		glTexCoord2d(0, 1); glVertex3f(-10.5, 0, -0.01f);
 		glTexCoord2d(1, 1); glVertex3f(10, 0, -0.01f);
 		glTexCoord2d(1, 0); glVertex3f(10, 15, -0.01f);
-		glTexCoord2d(0, 0); glVertex3f(-10, 15, -0.01f);
+		glTexCoord2d(0, 0); glVertex3f(-10.5, 15, -0.01f);
 		glEnd();
 		glEnable(GL_LIGHTING);
 		glDisable(GL_TEXTURE_2D);
-		glTranslatef(-5.6, +2, 0); //Revertimos el desplazamiento del eje
+
+		ETSIDI::setTextColor(1, 1, 1);
+		ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 40);
+		ETSIDI::printxy("m para salir al MENU PRINCIPAL", -6, 1);
 	
 	}
 	else if (estado == MATE_AL_N) {
@@ -63,14 +67,17 @@ void Mundo::Dibuja()
 		glDisable(GL_LIGHTING);
 		glBegin(GL_POLYGON);
 		glColor3f(1, 1, 1);
-		glTexCoord2d(0, 1); glVertex3f(-10, 0, -0.01f);
+		glTexCoord2d(0, 1); glVertex3f(-10.5, 0, -0.01f);
 		glTexCoord2d(1, 1); glVertex3f(10, 0, -0.01f);
 		glTexCoord2d(1, 0); glVertex3f(10, 15, -0.01f);
-		glTexCoord2d(0, 0); glVertex3f(-10, 15, -0.01f);
+		glTexCoord2d(0, 0); glVertex3f(-10.5, 15, -0.01f);
 		glEnd();
 		glEnable(GL_LIGHTING);
 		glDisable(GL_TEXTURE_2D);
-		glTranslatef(-5.6, +2, 0); //Revertimos el desplazamiento del eje
+
+		ETSIDI::setTextColor(1, 1, 1);
+		ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 40);
+		ETSIDI::printxy("m para salir al MENU PRINCIPAL", -6, 1);
 	}
 	else if (estado == PROMOCION) {
 		gluLookAt(0, 7.5, 30, // posicion del ojo
