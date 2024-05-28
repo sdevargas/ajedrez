@@ -263,12 +263,12 @@ void Tablero::Mueve(int x, int y)
 					Promocion();//Llamamos a la funcion que comprueba si es posible la promocion del peon
 					turno = (turno == BLANCAS) ? NEGRAS : BLANCAS; //Cambio de turno
 					cout << "TURNO DE: " << turno << endl;
-					if (Mate() == true) {
-						cout << "Jaque Mate" << endl;
-					}
+		
 					Historial(posicionPiezas[x][y], x, y, r);
-				
-	
+					if (Mate() == true) {
+						cout << "Jaque Mate" << endl;	
+						cont = 1;
+					}
 				}
 			}
 			else {

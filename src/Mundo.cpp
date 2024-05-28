@@ -12,6 +12,7 @@ Mundo::Mundo()
 void Mundo::Dibuja()
 {
 	if (estado == INICIO) {
+		
 		//Sprite Menú principal
 		gluLookAt(0, 7.5, 30, // posicion del ojo
 			0.0, 7.5, 0.0, // hacia que punto mira (0,7.5,0)
@@ -36,41 +37,95 @@ void Mundo::Dibuja()
 		juego->Dibuja();
 	}
 	else if (estado == MATE_AL_B) {
-		//Sprite Ganan las negras
+		if (estadoAnterior==JUEGO_NORMAL) {
+			//Sprite Ganan las negras
 		//DIBUJO DEL FONDO
-		glTranslatef(5.6, -2, 0); //Movemos el eje para que se dibuje centrado
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/mate_RB.png").id);
-		glDisable(GL_LIGHTING);
-		glBegin(GL_POLYGON);
-		glColor3f(1, 1, 1);
-		glTexCoord2d(0, 1); glVertex3f(-10, 0, -0.01f);
-		glTexCoord2d(1, 1); glVertex3f(10, 0, -0.01f);
-		glTexCoord2d(1, 0); glVertex3f(10, 15, -0.01f);
-		glTexCoord2d(0, 0); glVertex3f(-10, 15, -0.01f);
-		glEnd();
-		glEnable(GL_LIGHTING);
-		glDisable(GL_TEXTURE_2D);
-		glTranslatef(-5.6, +2, 0); //Revertimos el desplazamiento del eje
+			glTranslatef(5.6, -2, 0); //Movemos el eje para que se dibuje centrado
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/mate_RB.png").id);
+			glDisable(GL_LIGHTING);
+			glBegin(GL_POLYGON);
+			glColor3f(1, 1, 1);
+			glTexCoord2d(0, 1); glVertex3f(-10.5, 0, -0.01f);
+			glTexCoord2d(1, 1); glVertex3f(10, 0, -0.01f);
+			glTexCoord2d(1, 0); glVertex3f(10, 15, -0.01f);
+			glTexCoord2d(0, 0); glVertex3f(-10.5, 15, -0.01f);
+			glEnd();
+			glEnable(GL_LIGHTING);
+			glDisable(GL_TEXTURE_2D);
+
+			ETSIDI::setTextColor(1, 1, 1);
+			ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 40);
+			ETSIDI::printxy("m para salir al MENU PRINCIPAL", -6, 1);
+		}
+		else {
+			//Sprite Ganan las negras
+		//DIBUJO DEL FONDO
+			glTranslatef(5.6, -2, 0); //Movemos el eje para que se dibuje centrado
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/mate_RBsw.png").id);
+			glDisable(GL_LIGHTING);
+			glBegin(GL_POLYGON);
+			glColor3f(1, 1, 1);
+			glTexCoord2d(0, 1); glVertex3f(-10.5, 0, -0.01f);
+			glTexCoord2d(1, 1); glVertex3f(10, 0, -0.01f);
+			glTexCoord2d(1, 0); glVertex3f(10, 15, -0.01f);
+			glTexCoord2d(0, 0); glVertex3f(-10.5, 15, -0.01f);
+			glEnd();
+			glEnable(GL_LIGHTING);
+			glDisable(GL_TEXTURE_2D);
+
+			ETSIDI::setTextColor(1, 1, 1);
+			ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 40);
+			ETSIDI::printxy("m para salir al MENU PRINCIPAL", -6, 1);
+		}
+		
 	
 	}
 	else if (estado == MATE_AL_N) {
-		//Sprite Ganan las blancas
-		//DIBUJO DEL FONDO
-		glTranslatef(5.6, -2, 0); //Movemos el eje para que se dibuje centrado
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/mate_RN.png").id);
-		glDisable(GL_LIGHTING);
-		glBegin(GL_POLYGON);
-		glColor3f(1, 1, 1);
-		glTexCoord2d(0, 1); glVertex3f(-10, 0, -0.01f);
-		glTexCoord2d(1, 1); glVertex3f(10, 0, -0.01f);
-		glTexCoord2d(1, 0); glVertex3f(10, 15, -0.01f);
-		glTexCoord2d(0, 0); glVertex3f(-10, 15, -0.01f);
-		glEnd();
-		glEnable(GL_LIGHTING);
-		glDisable(GL_TEXTURE_2D);
-		glTranslatef(-5.6, +2, 0); //Revertimos el desplazamiento del eje
+		if (estadoAnterior == JUEGO_NORMAL) {
+			//Sprite Ganan las blancas
+			//DIBUJO DEL FONDO
+			glTranslatef(5.6, -2, 0); //Movemos el eje para que se dibuje centrado
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/mate_RN.png").id);
+			glDisable(GL_LIGHTING);
+			glBegin(GL_POLYGON);
+			glColor3f(1, 1, 1);
+			glTexCoord2d(0, 1); glVertex3f(-10.5, 0, -0.01f);
+			glTexCoord2d(1, 1); glVertex3f(10, 0, -0.01f);
+			glTexCoord2d(1, 0); glVertex3f(10, 15, -0.01f);
+			glTexCoord2d(0, 0); glVertex3f(-10.5, 15, -0.01f);
+			glEnd();
+			glEnable(GL_LIGHTING);
+			glDisable(GL_TEXTURE_2D);
+
+			ETSIDI::setTextColor(1, 1, 1);
+			ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 40);
+			ETSIDI::printxy("m para salir al MENU PRINCIPAL", -6, 1);
+		}
+		else {
+			//Sprite Ganan las blancas
+			//DIBUJO DEL FONDO
+			glTranslatef(5.6, -2, 0); //Movemos el eje para que se dibuje centrado
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/mate_RNsw.png").id);
+			glDisable(GL_LIGHTING);
+			glBegin(GL_POLYGON);
+			glColor3f(1, 1, 1);
+			glTexCoord2d(0, 1); glVertex3f(-10.5, 0, -0.01f);
+			glTexCoord2d(1, 1); glVertex3f(10, 0, -0.01f);
+			glTexCoord2d(1, 0); glVertex3f(10, 15, -0.01f);
+			glTexCoord2d(0, 0); glVertex3f(-10.5, 15, -0.01f);
+			glEnd();
+			glEnable(GL_LIGHTING);
+			glDisable(GL_TEXTURE_2D);
+
+			ETSIDI::setTextColor(1, 1, 1);
+			ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 40);
+			ETSIDI::printxy("m para salir al MENU PRINCIPAL", -6, 1);
+		}
+		
 	}
 	else if (estado == PROMOCION) {
 		gluLookAt(0, 7.5, 30, // posicion del ojo
@@ -215,10 +270,12 @@ void Mundo::tecla(unsigned char key)
 {
 	if (estado == INICIO) {
 		if (key == 'n') {
+			delete juego;
 			juego = new JuegoNormal();			
 			estado = JUEGO_NORMAL;
 		}
 		else if (key == 's') {
+			delete juego;
 			juego = new JuegoSW();			
 			estado = JUEGO_SW;
 		}
