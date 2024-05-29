@@ -58,7 +58,7 @@ void Mundo::Dibuja()
 			ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 40);
 			ETSIDI::printxy("m para salir al MENU PRINCIPAL", -6, 1);
 		}
-		else {
+		else if (estadoAnterior == JUEGO_SW) {
 			//Sprite Ganan las negras
 		//DIBUJO DEL FONDO
 			glTranslatef(5.6, -2, 0); //Movemos el eje para que se dibuje centrado
@@ -104,7 +104,7 @@ void Mundo::Dibuja()
 			ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 40);
 			ETSIDI::printxy("m para salir al MENU PRINCIPAL", -6, 1);
 		}
-		else {
+		else if (estadoAnterior==JUEGO_SW) {
 			//Sprite Ganan las blancas
 			//DIBUJO DEL FONDO
 			glTranslatef(5.6, -2, 0); //Movemos el eje para que se dibuje centrado

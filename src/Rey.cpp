@@ -59,29 +59,4 @@ bool Rey::ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas[11]
 			return false;
 	}
 }
-void Rey::ObtenerMovimientosPosibles(int x, int y, bool movimientos[11][10], Pieza* posicionPiezas[11][10], Tablero& tablero) {
-	// Reiniciamos la matriz de movimientos
-	for (int i = 0; i < 11; i++) {
-		for (int j = 0; j < 10; j++) {
-			movimientos[i][j] = false;
-		}
-	}
-	// Calcular los movimientos posibles del Rey
-	for (int i = x - 1; i <= x + 1; ++i) {
-		for (int j = y - 1; j <= y + 1; ++j) {
-			// Verificar si la posición está dentro del tablero y si el movimiento es válido
-			if (i >= 0 && i < 11 && j >= 0 && j < 10 && ValidaMov(Vector2D(x, y), Vector2D(i, j), posicionPiezas)) {
-				// Verificar si el movimiento pone al Rey en jaque
-				Pieza* piezaTemp = posicionPiezas[x][y];
-				posicionPiezas[x][y] = nullptr;
-				posicionPiezas[i][j] = piezaTemp;
-				if (!tablero.Jaque(posicionPiezas)) {
-					movimientos[i][j] = true; // Marcar el movimiento como posible
-				}
-				// Restaurar la posición original de las piezas
-				posicionPiezas[x][y] = piezaTemp;
-				posicionPiezas[i][j] = nullptr;
-			}
-		}
-	}
-}
+

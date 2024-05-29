@@ -55,27 +55,3 @@ bool Caballo::ValidaMov(Vector2D origen, Vector2D destino, Pieza* posicionPiezas
 			return false;
 	}
 }
-
-void Caballo::ObtenerMovimientosPosibles(int x, int y, bool movimientos[11][10], Pieza* posicionPiezas[11][10]) {
-	// Reiniciamos la matriz de movimientos
-	for (int i = 0; i < 11; i++) {
-		for (int j = 0; j < 10; j++) {
-			movimientos[i][j] = false;
-		}
-	}
-
-	// Posibles movimientos del caballo en forma de L
-	int dx[] = { -1, 1, 2, 2, 1, -1, -2, -2 };
-	int dy[] = { -2, -2, -1, 1, 2, 2, 1, -1 };
-
-	for (int i = 0; i < 8; i++) {
-		int nx = x + dx[i];
-		int ny = y + dy[i];
-
-		if (nx >= 0 && nx < 11 && ny >= 0 && ny < 10) {
-			if (posicionPiezas[nx][ny] == nullptr || posicionPiezas[nx][ny]->getColor() != getColor()) {
-				movimientos[nx][ny] = true;
-			}
-		}
-	}
-}
