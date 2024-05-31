@@ -344,22 +344,25 @@ void Mundo::tecla(unsigned char key)
 				if (estadoAnterior == JUEGO_NORMAL) {
 					
 					juego = new JuegoNormal(true);
+					estado = estadoAnterior;
 				}
 				else if (estadoAnterior == JUEGO_SW)
 				{
-					
 					juego = new JuegoSW(true);
+					estado = estadoAnterior;
 				}
 			}
 			else if (jugadores = 2) {
 				if (estadoAnterior == JUEGO_NORMAL) {
 					
 					juego = new JuegoNormal(false);
+					estado = estadoAnterior;
 				}
 				else if (estado == JUEGO_SW)
 				{
 					
 					juego = new JuegoSW(false);
+					estado = estadoAnterior;
 				}
 			}
 						
