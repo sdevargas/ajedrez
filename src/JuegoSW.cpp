@@ -2,10 +2,11 @@
 #include "ETSIDI.h"
 #include "freeglut.h"
 
-JuegoSW::JuegoSW() 
+JuegoSW::JuegoSW(bool contraBot)
 {
 	tablero = new Tablero(Tablero:: SW);
 	promocion = false;
+	this->contraBot = contraBot;
 }
 
 void JuegoSW::Dibuja()
@@ -32,4 +33,7 @@ void JuegoSW::Mueve(int columna, int fila)
 {
 	tablero->Mueve(columna, fila);
 	promocion=tablero->getPromocion();
+	if (contraBot && tablero->getTurno() == Tablero::NEGRAS) {
+		tablero->MovimientoBot();
+	}
 }

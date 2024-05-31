@@ -7,6 +7,10 @@
 #include "Rey.h"
 #include "Reina.h"
 #include"Alfil.h"
+#include <vector>
+#include <utility>
+#include <cstdlib>
+#include <ctime>
 
 #define limite_filas 10
 #define limite_columnas 11
@@ -41,7 +45,8 @@ public:
 	void cambiaPromocion(Pieza::Tipo tipo);
 	bool CompMovCompleto(Vector2D origen, Vector2D destino);
 	void Historial(Pieza* p, int x, int y, bool r);
-
+	void MovimientoBot();
+	Turno getTurno() const { return turno; }
 
 	bool getPromocion() {
 		bool result = promocion;

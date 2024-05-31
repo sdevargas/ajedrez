@@ -2,8 +2,11 @@
 #include "Juego.h"
 
 class JuegoNormal : public Juego {
+private:
+	bool contraBot;
+
 public:
-	JuegoNormal();
+	JuegoNormal(bool contraBot);
 	void Dibuja();
 	void Mueve(int columna, int fila);
 	bool getmate_b() { return tablero->getmate_b(); }

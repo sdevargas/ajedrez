@@ -1,10 +1,13 @@
 #include "JuegoNormal.h"
 #include "ETSIDI.h"
 #include "freeglut.h"
-JuegoNormal::JuegoNormal() 
+
+
+JuegoNormal::JuegoNormal(bool contraBot)
 {
 	tablero = new Tablero(Tablero::NORMAL);
 	promocion = false;
+	this->contraBot = contraBot;
 }
 
 void JuegoNormal::Dibuja()
@@ -32,4 +35,8 @@ void JuegoNormal::Mueve(int columna, int fila)
 {
 	tablero->Mueve(columna, fila);
 	promocion = tablero->getPromocion();
+	if (contraBot && tablero->getTurno() == Tablero::NEGRAS) {
+        tablero->MovimientoBot();
+    }
 }
+

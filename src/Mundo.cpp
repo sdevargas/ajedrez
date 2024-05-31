@@ -305,11 +305,11 @@ void Mundo::tecla(unsigned char key)
 			jugadores = 1;
 			if (modoJuego == JUEGO_NORMAL) {
 				delete juego;
-				juego = new JuegoNormal(); // true indica que hay un bot
+				juego = new JuegoNormal(true); // true indica que hay un bot
 			}
 			else if (modoJuego == JUEGO_SW) {
 				delete juego;
-				juego = new JuegoSW(); // true indica que hay un bot
+				juego = new JuegoSW(true); // true indica que hay un bot
 			}
 			estado = modoJuego;
 		}
@@ -318,11 +318,11 @@ void Mundo::tecla(unsigned char key)
 			jugadores = 2;
 			if (modoJuego == JUEGO_NORMAL) {
 				delete juego;
-				juego = new JuegoNormal(); // false indica que no hay bot
+				juego = new JuegoNormal(false); // false indica que no hay bot
 			}
 			else if (modoJuego == JUEGO_SW) {
 				delete juego;
-				juego = new JuegoSW(); // false indica que no hay bot
+				juego = new JuegoSW(false); // false indica que no hay bot
 			}
 			estado = modoJuego;
 		}
@@ -340,11 +340,33 @@ void Mundo::tecla(unsigned char key)
 			estado = estadoAnterior;
 		}
 		else if (key == 'n') {
-			juego = new JuegoNormal();
-			estado = JUEGO_NORMAL;
+			if (jugadores = 1) {
+				if (estadoAnterior == JUEGO_NORMAL) {
+					
+					juego = new JuegoNormal(true);
+				}
+				else if (estadoAnterior == JUEGO_SW)
+				{
+					
+					juego = new JuegoSW(true);
+				}
+			}
+			else if (jugadores = 2) {
+				if (estadoAnterior == JUEGO_NORMAL) {
+					
+					juego = new JuegoNormal(false);
+				}
+				else if (estado == JUEGO_SW)
+				{
+					
+					juego = new JuegoSW(false);
+				}
+			}
+						
 		}
 		else if (key == 'm') {
 			estado = INICIO;
+			jugadores = 0;
 		}
 		//Seleccion de opciones del menu Pausa
 	}

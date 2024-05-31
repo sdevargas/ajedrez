@@ -8,7 +8,7 @@ int cont = 1;
 
 Tablero::Tablero(Tablero::Modo m){
 	contadorClick = 0;
-
+	srand(static_cast<unsigned>(time(0)));
 	modo = m;
 
 	//Hacemos nullptr todas las casillas para que no haya basura
@@ -562,7 +562,40 @@ void Tablero::Historial(Pieza* p, int x, int y, bool r)
 
 }
 
+void Tablero::MovimientoBot()
+{
+	vector<pair<Vector2D, Vector2D>> movimientos_validos;
+	Vector2D origen, destino;
 
+	for (int i = 0; i < limite_columnas; i++) {
+		for (int j = 0; j < limite_filas; j++) {
+			if (posicionPiezas[i][j] != nullptr && posicionPiezas[i][j]->getColor() == NEGRAS) {
+				origen = { i, j };
+				for (int k = 0; k < limite_columnas; k++) {
+					for (int l = 0; l < limite_filas; l++) {
+						destino = { k, l };
+						if (CompMovCompleto(origen, destino)) {
+							movimientos_validos.push_back({ origen, destino });
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	if (!movimientos_validos.empty()) {
+		int indice = rand() % movimientos_validos.size();
+		origen = movimientos_validos[indice].first;
+		destino = movimientos_validos[indice].second;
+
+		Mueve(origen.x, origen.y);
+		Mueve(destino.x, destino.y);
+
+		// Alternar turno después del movimiento del bot
+		turno = BLANCAS;
+
+	}
+}
 
 
 

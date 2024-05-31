@@ -2,8 +2,10 @@
 #include "Juego.h"
 
 class JuegoSW : public Juego {
+private:
+	bool contraBot;
 public:
-	JuegoSW();
+	JuegoSW(bool contraBot);
 	void Dibuja();
 	void Mueve(int columna, int fila);
 	bool getmate_b() { return tablero->getmate_b(); }
