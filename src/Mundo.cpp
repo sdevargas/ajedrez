@@ -7,6 +7,7 @@ Mundo::Mundo()
 {
 	estado = INICIO;
 	estadoAnterior = INICIO;
+	jugadores = 0;
 }
 
 void Mundo::Dibuja()
@@ -28,6 +29,24 @@ void Mundo::Dibuja()
 		ETSIDI::setFont("bin/fuentes/Starjedi.ttf", 20);
 		ETSIDI::printxy("Pulse s para modo STAR WARS", -10, 0);
 	}
+
+	else if (estado == SELECCION_JUGADORES) {
+
+		gluLookAt(0, 7.5, 30, // posicion del ojo
+			0.0, 7.5, 0.0, // hacia que punto mira (0,7.5,0)
+			0.0, 1.0, 0.0); // definimos hacia arriba (eje Y)
+
+		ETSIDI::setTextColor(1, 1, 1);
+		ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 50);
+		ETSIDI::printxy("Seleccione el numero de jugadores", -16, 20);
+
+		ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 35);
+		ETSIDI::printxy("Pulse 1 para un jugador (contra IA)", -10, 5);
+		ETSIDI::printxy("Pulse 2 para dos jugadores", -10, 0);
+
+	}
+
+
 	else if (estado == JUEGO_NORMAL) {
 		
 		juego->Dibuja();
@@ -270,21 +289,47 @@ void Mundo::tecla(unsigned char key)
 {
 	if (estado == INICIO) {
 		if (key == 'n') {
-			delete juego;
-			juego = new JuegoNormal();			
-			estado = JUEGO_NORMAL;
-			estadoAnterior = JUEGO_NORMAL;
+			modoJuego = JUEGO_NORMAL;
+			estado = SELECCION_JUGADORES;
 		}
 		else if (key == 's') {
-			delete juego;
-			juego = new JuegoSW();			
-			estado = JUEGO_SW;
-			estadoAnterior = JUEGO_SW;
+			modoJuego = JUEGO_SW;
+			estado = SELECCION_JUGADORES;
 		}
 		else if (key == 'e') {
 			exit(0);
 		}
-	} else if(estado==JUEGO_NORMAL||estado==JUEGO_SW){
+	}
+	else if (estado == SELECCION_JUGADORES) {
+		if (key == '1') {
+			jugadores = 1;
+			if (modoJuego == JUEGO_NORMAL) {
+				delete juego;
+				juego = new JuegoNormal(); // true indica que hay un bot
+			}
+			else if (modoJuego == JUEGO_SW) {
+				delete juego;
+				juego = new JuegoSW(); // true indica que hay un bot
+			}
+			estado = modoJuego;
+		}
+		
+		else if (key == '2') {
+			jugadores = 2;
+			if (modoJuego == JUEGO_NORMAL) {
+				delete juego;
+				juego = new JuegoNormal(); // false indica que no hay bot
+			}
+			else if (modoJuego == JUEGO_SW) {
+				delete juego;
+				juego = new JuegoSW(); // false indica que no hay bot
+			}
+			estado = modoJuego;
+		}
+		
+	}	
+
+    else if(estado==JUEGO_NORMAL||estado==JUEGO_SW){
 		if (key == 'p') {
 			estadoAnterior = estado;
 			estado = PAUSA;
