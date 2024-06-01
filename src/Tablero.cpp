@@ -575,7 +575,20 @@ void Tablero::MovimientoBot()
 					for (int l = 0; l < limite_filas; l++) {
 						destino = { k, l };
 						if (CompMovCompleto(origen, destino)) {
-							movimientos_validos.push_back({ origen, destino });
+							// Hacer una copia del tablero para simular el movimiento
+							Pieza* tmpPosiciones[limite_columnas][limite_filas];
+							for (int m = 0; m < limite_columnas; m++) {
+								for (int n = 0; n < limite_filas; n++) {
+									tmpPosiciones[m][n] = posicionPiezas[m][n];
+								}
+							}
+							tmpPosiciones[destino.x][destino.y] = tmpPosiciones[origen.x][origen.y];
+							tmpPosiciones[origen.x][origen.y] = nullptr;
+
+							// Verificar si el movimiento deja al rey en jaque
+							if (!Jaque(tmpPosiciones)) {
+								movimientos_validos.push_back({ origen, destino });
+							}
 						}
 					}
 				}

@@ -1,5 +1,7 @@
 #include "Juego.h"
 
-Juego::Juego()
+Juego::Juego(bool contraBot)
 {
+	this->contraBot = contraBot;
+	promocion = false;
 }

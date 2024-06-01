@@ -2,11 +2,11 @@
 #include "ETSIDI.h"
 #include "freeglut.h"
 
-JuegoSW::JuegoSW(bool contraBot)
+JuegoSW::JuegoSW(bool contraBot) :Juego(contraBot)
 {
 	tablero = new Tablero(Tablero:: SW);
-	promocion = false;
-	this->contraBot = contraBot;
+	
+	
 }
 
 void JuegoSW::Dibuja()

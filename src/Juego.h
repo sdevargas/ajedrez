@@ -2,8 +2,9 @@
 #include"Tablero.h"
 
 class Juego {
+
 public:
-	Juego() ;
+	Juego(bool contraBot);
 	virtual void Dibuja()=0;
 	virtual void Mueve(int columna, int fila)=0;
 	virtual bool getmate_b() = 0;
@@ -14,4 +15,5 @@ public:
 protected:
 	Tablero* tablero;
 	bool promocion;
+	bool contraBot;
 };

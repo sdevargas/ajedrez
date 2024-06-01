@@ -2,8 +2,7 @@
 #include "Juego.h"
 
 class JuegoSW : public Juego {
-private:
-	bool contraBot;
+
 public:
 	JuegoSW(bool contraBot);
 	void Dibuja();

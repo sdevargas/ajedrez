@@ -2,8 +2,6 @@
 #include "Juego.h"
 
 class JuegoNormal : public Juego {
-private:
-	bool contraBot;
 
 public:
 	JuegoNormal(bool contraBot);

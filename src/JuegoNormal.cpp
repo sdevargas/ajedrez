@@ -3,11 +3,11 @@
 #include "freeglut.h"
 
 
-JuegoNormal::JuegoNormal(bool contraBot)
+JuegoNormal::JuegoNormal(bool contraBot): Juego(contraBot)
 {
 	tablero = new Tablero(Tablero::NORMAL);
-	promocion = false;
-	this->contraBot = contraBot;
+	
+
 }
 
 void JuegoNormal::Dibuja()
