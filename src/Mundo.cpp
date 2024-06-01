@@ -445,9 +445,11 @@ void Mundo::PuedeHacerMov(int columna, int fila)
 	if (estado == JUEGO_NORMAL || estado == JUEGO_SW) {
 		juego->Mueve(columna, fila); //Le pasamos a trablero las coordenadas del click
 		if (juego->getmate_n()) {
+			estadoAnterior = estado;
 			estado = MATE_AL_N;
 		}
 		else if (juego->getmate_b()) {
+			estadoAnterior = estado;
 			estado = MATE_AL_B;
 		}
 		else if (juego->getPromocion()) {

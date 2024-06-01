@@ -266,7 +266,7 @@ void Tablero::Mueve(int x, int y)
 					cout << "TURNO DE: " << turno << endl;
 		
 					Historial(posicionPiezas[x][y], x, y, r);
-					if (Mate() == true) {
+					if (Jaque(posicionPiezas) && Mate() == true) {
 						cout << "Jaque Mate" << endl;	
 						cont = 1;
 					}
@@ -617,13 +617,13 @@ void Tablero::MovimientoBot()
 
 bool Tablero::Empate()
 {
-	/*Pieza* copia_tablero[limite_columnas][limite_filas];
+	Pieza* copia_tablero[limite_columnas][limite_filas];
 
 	for (int i = 0; i < limite_columnas; i++) {
 		for (int j = 0; j < limite_filas; j++) {
 			copia_tablero[i][j] = posicionPiezas[i][j];
 		}
-	}*/
+	}
 
 	Vector2D destino;
 	Vector2D origen;
@@ -635,20 +635,30 @@ bool Tablero::Empate()
 					for (int l = 0; l < limite_filas; l++) {
 						destino = { k,l };
 						if (CompMovCompleto(origen, destino)) {
-							return false;
+							posicionPiezas[destino.x][destino.y] = posicionPiezas[origen.x][origen.y];
+							posicionPiezas[origen.x][origen.y] = nullptr;
+							if (!Jaque(posicionPiezas)) {
+								for (int a = 0; a < limite_columnas; a++) {
+									for (int b = 0; b < limite_filas; b++) {
+										posicionPiezas[a][b] = copia_tablero[a][b]; //Devolvemos el tablero a su posición original deshaciendo el movimiento
+									}
+								}
+								return false;
+							}
+							else {
+								for (int a = 0; a < limite_columnas; a++) {
+									for (int b = 0; b < limite_filas; b++) {
+										posicionPiezas[a][b] = copia_tablero[a][b]; //Devolvemos el tablero a su posición original deshaciendo el movimiento
+									}
+								}
+							}
+							
 						}
 					}
 				}
 			}
 		}
 	}
-
-	/*for (int a = 0; a < limite_columnas; a++) {
-		for (int b = 0; b < limite_filas; b++) {
-			posicionPiezas[a][b] = copia_tablero[a][b]; //Devolvemos el tablero a su posición original deshaciendo el movimiento
-		}
-	}*/
-
 	return true;
 }
 
