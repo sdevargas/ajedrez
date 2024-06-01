@@ -283,6 +283,46 @@ void Mundo::Dibuja()
 		}
 
 	}
+	else if (estado == EMPATE) {
+		if (estadoAnterior == JUEGO_SW) {
+			glTranslatef(5.6, -2, 0); //Movemos el eje para que se dibuje centrado
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/empate_sw.png").id);
+			glDisable(GL_LIGHTING);
+			glBegin(GL_POLYGON);
+			glColor3f(1, 1, 1);
+			glTexCoord2d(0, 1); glVertex3f(-10.5, 0, -0.01f);
+			glTexCoord2d(1, 1); glVertex3f(10, 0, -0.01f);
+			glTexCoord2d(1, 0); glVertex3f(10, 15, -0.01f);
+			glTexCoord2d(0, 0); glVertex3f(-10.5, 15, -0.01f);
+			glEnd();
+			glEnable(GL_LIGHTING);
+			glDisable(GL_TEXTURE_2D);
+
+			ETSIDI::setTextColor(1, 1, 1);
+			ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 40);
+			ETSIDI::printxy("m para salir al MENU PRINCIPAL", -6, 1);
+		}
+		else if (estadoAnterior == JUEGO_NORMAL) {
+			glTranslatef(5.6, -2, 0); //Movemos el eje para que se dibuje centrado
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/empate_normal.png").id);
+			glDisable(GL_LIGHTING);
+			glBegin(GL_POLYGON);
+			glColor3f(1, 1, 1);
+			glTexCoord2d(0, 1); glVertex3f(-10.5, 0, -0.01f);
+			glTexCoord2d(1, 1); glVertex3f(10, 0, -0.01f);
+			glTexCoord2d(1, 0); glVertex3f(10, 15, -0.01f);
+			glTexCoord2d(0, 0); glVertex3f(-10.5, 15, -0.01f);
+			glEnd();
+			glEnable(GL_LIGHTING);
+			glDisable(GL_TEXTURE_2D);
+
+			ETSIDI::setTextColor(1, 1, 1);
+			ETSIDI::setFont("bin/fuentes/DecoheadFREE.otf", 40);
+			ETSIDI::printxy("m para salir al MENU PRINCIPAL", -6, 1);
+		}
+	}
 }
 
 void Mundo::tecla(unsigned char key)
@@ -374,7 +414,7 @@ void Mundo::tecla(unsigned char key)
 		}
 		//Seleccion de opciones del menu Pausa
 	}
-	else if (estado == MATE_AL_B || estado == MATE_AL_N) {
+	else if (estado == MATE_AL_B || estado == MATE_AL_N || estado == EMPATE) {
 		if (key == 'm') {
 			estado = INICIO;
 		}
@@ -413,6 +453,10 @@ void Mundo::PuedeHacerMov(int columna, int fila)
 		else if (juego->getPromocion()) {
 			estadoAnterior = estado;
 			estado = PROMOCION;
+		}
+		else if (juego->getempate()) {
+			estadoAnterior = estado;
+			estado = EMPATE;
 		}
 	}
 }

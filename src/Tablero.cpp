@@ -11,7 +11,7 @@ Tablero::Tablero(Tablero::Modo m){
 	srand(static_cast<unsigned>(time(0)));
 	modo = m;
 	cont = 1;
-
+	empate = false;
 	//Hacemos nullptr todas las casillas para que no haya basura
 	for (int columna = 0; columna < limite_columnas; columna++) {
 		for (int fila = 0; fila < limite_filas; fila++) {
@@ -269,6 +269,10 @@ void Tablero::Mueve(int x, int y)
 					if (Mate() == true) {
 						cout << "Jaque Mate" << endl;	
 						cont = 1;
+					}
+					else if (!Jaque(posicionPiezas)){
+						if (Empate())
+							empate = true;
 					}
 				}
 			}
@@ -611,5 +615,40 @@ void Tablero::MovimientoBot()
 	}
 }
 
+bool Tablero::Empate()
+{
+	/*Pieza* copia_tablero[limite_columnas][limite_filas];
 
+	for (int i = 0; i < limite_columnas; i++) {
+		for (int j = 0; j < limite_filas; j++) {
+			copia_tablero[i][j] = posicionPiezas[i][j];
+		}
+	}*/
+
+	Vector2D destino;
+	Vector2D origen;
+	for (int i = 0; i < limite_columnas; i++) {
+		for (int j = 0; j < limite_filas; j++) {
+			if (posicionPiezas[i][j] != nullptr && posicionPiezas[i][j]->getColor() == turno) {
+				origen = { i,j };
+				for (int k = 0; k < limite_columnas; k++) {
+					for (int l = 0; l < limite_filas; l++) {
+						destino = { k,l };
+						if (CompMovCompleto(origen, destino)) {
+							return false;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/*for (int a = 0; a < limite_columnas; a++) {
+		for (int b = 0; b < limite_filas; b++) {
+			posicionPiezas[a][b] = copia_tablero[a][b]; //Devolvemos el tablero a su posición original deshaciendo el movimiento
+		}
+	}*/
+
+	return true;
+}
 

@@ -11,6 +11,7 @@ public:
 	bool getmate_n() { return tablero->getmate_n(); }
 	bool getPromocion() { return promocion; }
 	void setTipoPromo(Pieza::Tipo tipo) { tablero->cambiaPromocion(tipo); }
+	bool getempate() { return tablero->getempate(); }
 protected:
 	Tablero* tablero;
 	bool promocion;

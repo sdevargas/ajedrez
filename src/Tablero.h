@@ -30,6 +30,7 @@ private:
 	Modo modo;
 	bool mate_b;
 	bool mate_n;
+	bool empate;
 
 public:
 	Pieza* posicionPiezas[limite_columnas][limite_filas]; //Se crea una matriz para albergar la posición de las piezas en el tablero
@@ -46,6 +47,7 @@ public:
 	bool CompMovCompleto(Vector2D origen, Vector2D destino);
 	void Historial(Pieza* p, int x, int y, bool r);
 	void MovimientoBot();
+	bool Empate();
 	Turno getTurno() const { return turno; }
 
 	bool getPromocion() {
@@ -58,5 +60,8 @@ public:
 	}
 	bool getmate_n() {
 		return mate_n;
+	}
+	bool getempate() {
+		return empate;
 	}
 };

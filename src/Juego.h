@@ -11,7 +11,7 @@ public:
 	virtual bool getmate_n() = 0;
 	virtual bool getPromocion() = 0;
 	virtual void setTipoPromo(Pieza::Tipo tipo)=0;
-
+	virtual bool getempate() = 0;
 protected:
 	Tablero* tablero;
 	bool promocion;

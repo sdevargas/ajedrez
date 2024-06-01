@@ -17,7 +17,7 @@ public:
 protected:
 	Juego* juego;
 
-	enum Estado {INICIO, SELECCION_JUGADORES, JUEGO_NORMAL, JUEGO_SW, PAUSA, MATE_AL_B, MATE_AL_N, PROMOCION};
+	enum Estado {INICIO, SELECCION_JUGADORES, JUEGO_NORMAL, JUEGO_SW, PAUSA, MATE_AL_B, MATE_AL_N, PROMOCION, EMPATE};
 	Estado estadoAnterior;
 	Estado estado;
 	Estado modoJuego;
