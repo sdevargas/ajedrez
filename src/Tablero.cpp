@@ -10,6 +10,7 @@ Tablero::Tablero(Tablero::Modo m){
 	contadorClick = 0;
 	srand(static_cast<unsigned>(time(0)));
 	modo = m;
+	cont = 1;
 
 	//Hacemos nullptr todas las casillas para que no haya basura
 	for (int columna = 0; columna < limite_columnas; columna++) {
