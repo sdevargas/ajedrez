@@ -309,8 +309,8 @@ bool Tablero::Jaque(Pieza* posicionPiezas_aux[limite_columnas][limite_filas])
 		}
 	}
 
-	cout << "Posicion rey blanco: " << rey_blanco.x << ", " << rey_blanco.y << endl;
-	cout << "Posicion rey negro: " << rey_negro.x << ", " << rey_negro.y << endl;
+	//cout << "Posicion rey blanco: " << rey_blanco.x << ", " << rey_blanco.y << endl;
+	//cout << "Posicion rey negro: " << rey_negro.x << ", " << rey_negro.y << endl;
 	
 	Vector2D rey_comp; //Se crea un Vector2D para guardar las coordenadas del rey que utilizaremos para comprobar el jaque
 	bool respuesta = false; //Esta será la respuesta bool a la función
@@ -416,19 +416,6 @@ void Tablero::Promocion()
 			else continue;
 		}
 	}
-
-	//for (int i = primeraFila; i <= (primeraFila + 1); i++) {
-	//	for (int j = 0; j < limite_columnas; j++) {
-	//		if (posicionPiezas[j][i] != nullptr) {
-	//			if ((posicionPiezas[j][i]->getTipo() == Pieza::PEON) && (posicionPiezas[j][i]->getColor() == turno)) {
-	//				promocion = true;
-	//				coordPromocion = { j, i };
-	//				return;
-	//			}
-	//			else continue;
-	//		}
-	//	}
-	//}
 	promocion = false;
 }
 
