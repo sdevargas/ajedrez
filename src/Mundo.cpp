@@ -380,7 +380,7 @@ void Mundo::tecla(unsigned char key)
 			estado = estadoAnterior;
 		}
 		else if (key == 'n') {
-			if (jugadores = 1) {
+			if (jugadores == 1) {
 				if (estadoAnterior == JUEGO_NORMAL) {
 					delete juego;
 					juego = new JuegoNormal(true);
@@ -393,7 +393,7 @@ void Mundo::tecla(unsigned char key)
 					estado = estadoAnterior;
 				}
 			}
-			else if (jugadores = 2) {
+			else if (jugadores == 2) {
 				if (estadoAnterior == JUEGO_NORMAL) {
 					delete juego;
 					juego = new JuegoNormal(false);
