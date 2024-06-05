@@ -33,7 +33,7 @@ void JuegoSW::Mueve(int columna, int fila)
 {
 	tablero->Mueve(columna, fila);
 	promocion=tablero->getPromocion();
-	if (contraBot && tablero->getTurno() == Tablero::NEGRAS) {
+	if (contraBot && tablero->getTurno() == Tablero::NEGRAS &&!promocion) {
 		tablero->MovimientoBot();
 	}
 }
